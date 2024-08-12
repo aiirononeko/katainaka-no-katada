@@ -6,12 +6,14 @@ import {
   Scripts,
   ScrollRestoration,
 } from '@remix-run/react'
+import stylesheet from '~/tailwind.css?url'
 
 import { Footer } from './components/footer'
 import { Header } from './components/header'
-import styles from './tailwind.css'
 
-export const link: LinksFunction = () => [{ rel: 'stylesheet', href: styles }]
+export const link: LinksFunction = () => [
+  { rel: 'stylesheet', href: stylesheet },
+]
 
 export function Layout({ children }: { children: React.ReactNode }) {
   return (
