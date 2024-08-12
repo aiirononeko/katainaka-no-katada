@@ -7,6 +7,7 @@ import {
   ScrollRestoration,
 } from '@remix-run/react'
 
+import { Footer } from './components/footer'
 import { Header } from './components/header'
 import styles from './tailwind.css'
 
@@ -21,9 +22,10 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <Meta />
         <Links />
       </head>
-      <body>
+      <body className='min-h-screen'>
         <Header />
         {children}
+        <Footer />
         <ScrollRestoration />
         <Scripts />
       </body>

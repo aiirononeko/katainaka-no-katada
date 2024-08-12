@@ -25,7 +25,7 @@ export default function Article() {
   const { article } = useLoaderData<typeof loader>()
 
   return (
-    <article>
+    <article className='mb-14'>
       <header className='py-10 md:py-16'>
         <div className='space-y-6 container mx-auto'>
           <h1 className='text-center text-2xl font-bold leading-9 md:text-3xl'>
