@@ -18,6 +18,7 @@ pages_build_output_dir = "./build/client"
 [vars]
 NEWT_SPACE_UID = "katainaka-no-katada"
 NEWT_CDN_API_TOKEN = "vLo_uq7-452MZyq7ru0E6rhNz1y2bWL2M5Q4m2cPKZM"
+BUN_VERSION = "1.1.22"
 
 # Bind the Workers AI model catalog. Run machine learning models, powered by serverless GPUs, on Cloudflare’s global network
 # Docs: https://developers.cloudflare.com/pages/functions/bindings/#workers-ai
