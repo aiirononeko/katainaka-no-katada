@@ -24,8 +24,8 @@ export default function Index() {
       {articles.length > 0 ? (
         <div className='grid md:grid-cols-2 lg:grid-cols-3 gap-8'>
           {articles.map((article) => (
-            <Link to={`/articles/${article.slug}`}>
-              <div key={article._id} className='border col-span-1'>
+            <Link to={`/articles/${article.slug}`} key={article._id}>
+              <div className='border col-span-1'>
                 <img src={article.coverImage.src} />
                 <div className='p-4 space-y-2'>
                   <div>
