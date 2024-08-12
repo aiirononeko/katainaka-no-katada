@@ -67,3 +67,38 @@
     @apply bg-background text-foreground;
   }
 }
+
+h2 {
+  font-size: 24px;
+  font-weight: 700;
+  line-height: 36px;
+  margin-top: 52px;
+  margin-bottom: 16px;
+  padding-bottom: 8px;
+  border-bottom: solid 1px rgb(100, 116, 139);
+}
+
+h3 {
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 36px;
+  margin-top: 46px;
+  margin-bottom: 8px;
+}
+
+p {
+  font-size: 16px;
+  line-height: 32px;
+}
+
+ol {
+  font-size: 16px;
+  line-height: 32px;
+  list-style-type: disc;
+  margin-left: 24px;
+}
+
+code {
+  font-size: 16px;
+  line-height: 32px;
+}
