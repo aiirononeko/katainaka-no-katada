@@ -1,4 +1,5 @@
 import { format } from '@formkit/tempo'
+import { LoaderFunctionArgs } from '@remix-run/cloudflare'
 import type { MetaFunction } from '@remix-run/node'
 import { Link, json, useLoaderData } from '@remix-run/react'
 import { Badge } from '~/components/ui/badge'
@@ -11,8 +12,10 @@ export const meta: MetaFunction = () => {
   ]
 }
 
-export const loader = async () => {
-  const articles = await getArticles()
+export const loader = async ({ context }: LoaderFunctionArgs) => {
+  const { env } = context.cloudflare
+
+  const articles = await getArticles(env.NEWT_SPACE_UID, env.NEWT_CDN_API_TOKEN)
   return json({ articles })
 }
 

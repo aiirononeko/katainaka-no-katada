@@ -5,9 +5,11 @@
   "type": "module",
   "scripts": {
     "build": "remix vite:build",
+    "deploy": "bun run build && wrangler pages deploy",
     "dev": "remix vite:dev",
     "lint": "eslint --ignore-path .gitignore --cache --cache-location ./node_modules/.cache/eslint .",
     "start": "wrangler pages dev build/client",
+    "typegen": "wrangler types",
     "typecheck": "tsc",
     "prepare": "husky"
   },

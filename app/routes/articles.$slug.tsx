@@ -10,10 +10,16 @@ import { getArticleBySlug } from '~/data'
 import github from '~/image/github-icon.png'
 import x from '~/image/x-icon.png'
 
-export const loader = async ({ params }: LoaderFunctionArgs) => {
+export const loader = async ({ params, context }: LoaderFunctionArgs) => {
   invariant(params.slug, '記事IDが指定されていません')
 
-  const article = await getArticleBySlug(params.slug)
+  const { env } = context.cloudflare
+
+  const article = await getArticleBySlug(
+    env.NEWT_SPACE_UID,
+    env.NEWT_CDN_API_TOKEN,
+    params.slug,
+  )
   if (!article) {
     throw new Response('Not Found', { status: 404 })
   }
