@@ -1,13 +1,13 @@
-import { client } from "./lib/newt"
-import { Article } from "./types/article"
+import { client } from './lib/newt'
+import { Article } from './types/article'
 
 export const getArticles = async () => {
   const { items } = await client.getContents<Article>({
     appUid: 'blog',
     modelUid: 'article',
     query: {
-      select: ['_id', 'title', 'slug', 'body']
-    }
+      select: ['_id', 'title', 'slug', 'body'],
+    },
   })
 
   return items
@@ -19,8 +19,8 @@ export const getArticleBySlug = async (slug: string) => {
     modelUid: 'article',
     query: {
       slug,
-      select: ['_id', 'title', 'slug', 'body']
-    }
+      select: ['_id', '_sys', 'title', 'slug', 'body'],
+    },
   })
 
   return article
