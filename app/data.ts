@@ -7,7 +7,7 @@ export const getArticles = async () => {
     modelUid: 'article',
     query: {
       limit: 10,
-      select: ['_id', 'title', 'slug', 'body'],
+      select: ['_id', '_sys', 'title', 'slug', 'body', 'coverImage', 'tags'],
     },
   })
 

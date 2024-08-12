@@ -43,7 +43,7 @@ export default function Article() {
         </div>
       </header>
       <div className='container mx-auto grid grid-cols-4 gap-8 w-full max-w-[1120px]'>
-        <div className='col-span-4 border border-muted-foreground rounded container py-10 lg:col-span-3'>
+        <div className='col-span-4 border rounded container py-10 lg:col-span-3'>
           <div>
             {article.tags.map((tag) => (
               <Badge
@@ -61,12 +61,12 @@ export default function Article() {
             ))}
           </div>
           <div className='mt-6'>
-            <img src={article.coverImage.src} />
+            <img src={article.coverImage.src} loading='lazy' />
           </div>
           {parse(article.body)}
         </div>
         <div className='hidden lg:col-span-1 lg:flex lg:flex-col lg:gap-8 lg:visible'>
-          <div className='border border-muted-foreground rounded p-5 space-y-4'>
+          <div className='border rounded p-5 space-y-4'>
             <div className='flex flex-row gap-3'>
               <Avatar>
                 <AvatarImage alt='カタダリョウタのアイコン' />
@@ -89,7 +89,7 @@ export default function Article() {
               <p className='text-sm'>多趣味に生きてます</p>
             </div>
           </div>
-          <div className='h-80 border border-muted-foreground rounded flex justify-center items-center'>
+          <div className='h-80 border rounded flex justify-center items-center'>
             <p className='text-muted-foreground'>目次準備中...</p>
           </div>
         </div>
