@@ -16,8 +16,6 @@ pages_build_output_dir = "./build/client"
 # Note: Use secrets to store sensitive data.
 # - https://developers.cloudflare.com/pages/functions/bindings/#secrets
 [vars]
-MICROCMS_SERVICE_DOMAIN = "p0lxsfmf82"
-MICROCMS_API_KEY = "ySejhWGkXm5Gvtr3Xh4tJZFHbuZnvDqB3G2b"
 BUN_VERSION = "1.1.22"
 
 # Bind the Workers AI model catalog. Run machine learning models, powered by serverless GPUs, on Cloudflare’s global network
@@ -80,8 +78,6 @@ BUN_VERSION = "1.1.22"
 ######## PRODUCTION environment config ########
 
 [env.production.vars]
-MICROCMS_SERVICE_DOMAIN = "p0lxsfmf82"
-MICROCMS_API_KEY = "ySejhWGkXm5Gvtr3Xh4tJZFHbuZnvDqB3G2b"
 BUN_VERSION = "1.1.22"
 
 # [[env.production.kv_namespaces]]
