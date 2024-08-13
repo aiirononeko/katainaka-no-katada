@@ -1,4 +1,3 @@
-import { LinksFunction } from '@remix-run/cloudflare'
 import {
   Links,
   Meta,
@@ -6,14 +5,10 @@ import {
   Scripts,
   ScrollRestoration,
 } from '@remix-run/react'
-import stylesheet from '~/tailwind.css'
 
 import { Footer } from './components/footer'
 import { Header } from './components/header'
-
-export const link: LinksFunction = () => [
-  { rel: 'stylesheet', href: stylesheet },
-]
+import './tailwind.css'
 
 export function Layout({ children }: { children: React.ReactNode }) {
   return (
