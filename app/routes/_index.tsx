@@ -14,11 +14,9 @@ export const meta: MetaFunction = () => {
 }
 
 export const loader = async ({ context }: LoaderFunctionArgs) => {
-  const { env } = context.cloudflare
-
   const client = createClient({
-    serviceDomain: env.MICROCMS_SERVICE_DOMAIN,
-    apiKey: env.MICROCMS_API_KEY,
+    serviceDomain: context.cloudflare.env.MICROCMS_SERVICE_DOMAIN,
+    apiKey: context.cloudflare.env.MICROCMS_API_KEY,
   })
 
   const response = await client.getList<Blog>({
