@@ -1,4 +1,4 @@
-import { LinksFunction } from '@remix-run/node'
+import { LinksFunction } from '@remix-run/cloudflare'
 import {
   Links,
   Meta,
@@ -6,7 +6,7 @@ import {
   Scripts,
   ScrollRestoration,
 } from '@remix-run/react'
-import stylesheet from '~/tailwind.css?url'
+import stylesheet from '~/tailwind.css'
 
 import { Footer } from './components/footer'
 import { Header } from './components/header'
