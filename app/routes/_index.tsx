@@ -9,7 +9,7 @@ import top from '~/image/top.png'
 
 export const meta: MetaFunction = () => {
   return [
-    { title: 'トップページ | 片田舎のカタダ' },
+    { title: 'トップページ | キッサカタダ' },
     { name: 'description', content: 'Welcome to Remix!' },
   ]
 }

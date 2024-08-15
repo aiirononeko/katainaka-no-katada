@@ -34,6 +34,7 @@ export const Navbar = () => {
           >
             <NavLink
               to={item.path}
+              prefetch='intent'
               className={({ isActive }) => (isActive ? 'underline' : '')}
             >
               {item.name}
