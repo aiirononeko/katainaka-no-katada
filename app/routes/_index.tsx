@@ -10,7 +10,11 @@ import top from '~/image/top.png'
 export const meta: MetaFunction = () => {
   return [
     { title: 'トップページ | キッサカタダ' },
-    { name: 'description', content: 'Welcome to Remix!' },
+    {
+      name: 'description',
+      content:
+        'ソフトウェアエンジニアのカタダが技術や趣味のことを記事にしています。',
+    },
   ]
 }
 
