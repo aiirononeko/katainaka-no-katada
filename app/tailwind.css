@@ -68,7 +68,7 @@
   }
 }
 
-h2 {
+#article h2 {
   font-size: 24px;
   font-weight: 700;
   line-height: 36px;
@@ -78,7 +78,7 @@ h2 {
   border-bottom: solid 1px rgb(100, 116, 139);
 }
 
-h3 {
+#article h3 {
   font-size: 20px;
   font-weight: 700;
   line-height: 36px;
@@ -86,19 +86,19 @@ h3 {
   margin-bottom: 8px;
 }
 
-p {
+#article p {
   font-size: 16px;
   line-height: 32px;
 }
 
-ol {
+#article ol {
   font-size: 16px;
   line-height: 32px;
   list-style-type: disc;
   margin-left: 24px;
 }
 
-code {
+#article code {
   font-size: 16px;
   line-height: 32px;
 }

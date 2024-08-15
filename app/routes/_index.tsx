@@ -1,12 +1,10 @@
 import { format } from '@formkit/tempo'
 import { LoaderFunctionArgs } from '@remix-run/cloudflare'
 import type { MetaFunction } from '@remix-run/cloudflare'
-import { Await, Link, useNavigation } from '@remix-run/react'
+import { Link } from '@remix-run/react'
 import { createClient } from 'microcms-js-sdk'
-import { Suspense } from 'react'
 import { typedjson, useTypedLoaderData } from 'remix-typedjson'
 import { Badge } from '~/components/ui/badge'
-import { Skeleton } from '~/components/ui/skeleton'
 import top from '~/image/top.png'
 
 export const meta: MetaFunction = () => {
@@ -44,6 +42,11 @@ export default function Index() {
         </div>
       </div>
       <div className='container mx-auto w-full max-w-[1120px] py-10'>
+        <div className='mb-10'>
+          <h2 className='text-center text-xl font-semibold tracking-wider'>
+            最新記事
+          </h2>
+        </div>
         {contents.length > 0 ? (
           <div className='grid md:grid-cols-2 lg:grid-cols-3 gap-8'>
             {contents.map((content) => (

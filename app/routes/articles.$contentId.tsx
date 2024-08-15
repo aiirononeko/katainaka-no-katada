@@ -31,7 +31,7 @@ export default function Article() {
   const { content } = useLoaderData<typeof loader>()
 
   return (
-    <article className='mb-14'>
+    <article id='article' className='mb-14'>
       <header className='py-10 md:py-16'>
         <div className='space-y-5 container mx-auto md:space-y-6'>
           <p className='text-center'>{content.category.name}</p>

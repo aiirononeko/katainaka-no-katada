@@ -13,6 +13,7 @@ import * as gtag from '~/utils/gtags.client'
 
 import { Footer } from './components/footer'
 import { Header } from './components/header'
+import { Navbar } from './components/navbar'
 import './tailwind.css'
 
 export const loader = async ({ context }: LoaderFunctionArgs) => {
@@ -67,6 +68,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
       </head>
       <body className='min-h-screen'>
         <Header />
+        <Navbar />
         {children}
         <Footer />
         <ScrollRestoration />
