@@ -7,7 +7,7 @@ const NAV_ITEMS = [
   },
   {
     path: '/technology',
-    name: 'テクノロジー',
+    name: 'テック',
   },
   {
     path: '/gadget',
@@ -25,8 +25,8 @@ const NAV_ITEMS = [
 
 export const Navbar = () => {
   return (
-    <nav className='h-10 mb-6'>
-      <ul className='flex justify-center font-semibold text-sm'>
+    <nav className='h-10 md:mb-6'>
+      <ul className='flex justify-center font-semibold text-xs md:text-sm'>
         {NAV_ITEMS.map((item) => (
           <li
             key={`${item.name}_${Math.random()}`}

@@ -34,15 +34,17 @@ export default function Dairy() {
   const { contents } = response
 
   return (
-    <div className='container mx-auto w-full max-w-[1120px] py-10'>
+    <div className='container mx-auto w-full max-w-[1120px] py-8 md:py-10'>
       <div className='mb-10 space-y-4'>
-        <h2 className='text-center text-xl font-semibold'>日々のこと</h2>
-        <p className='text-center'>
+        <h2 className='text-center text-md md:text-xl font-semibold'>
+          日々のこと
+        </h2>
+        <p className='text-center text-sm md:text-md'>
           誰に向けるわけでもなく、日々のことを呟きます
         </p>
       </div>
       {contents.length > 0 ? (
-        <div className='grid md:grid-cols-2 lg:grid-cols-3 gap-8'>
+        <div className='grid lg:grid-cols-3 gap-8 justify-center'>
           {contents.map((content) => (
             <ContentCard key={content.id} content={content} />
           ))}

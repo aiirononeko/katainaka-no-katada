@@ -8,14 +8,15 @@ interface Props {
 
 export const ContentCard = ({ content }: Props) => {
   return (
-    <Link to={`/${content.category.slug}/${content.id}`}>
+    <Link
+      to={`/${content.category.slug}/${content.id}`}
+      className='max-w-[330px]'
+    >
       <div className='border col-span-1 space-y-4 pb-4'>
-        <img
-          src={content.eyecatch.url}
-          width={content.eyecatch.width}
-          height={content.eyecatch.height}
-        />
-        <div className='px-3'>
+        <div className='h-[180px]'>
+          <img src={content.eyecatch.url} className='h-[180px]' />
+        </div>
+        <div className='px-3 space-x-2'>
           {content.tags.map((tag) => (
             <Badge key={tag.id} variant='outline' className='h-8 space-x-1'>
               <span>#</span>

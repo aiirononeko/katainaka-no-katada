@@ -12,16 +12,13 @@ export const ContentDetail = ({ content }: Props) => {
   return (
     <div className='container mx-auto grid grid-cols-4 gap-8 w-full max-w-[1120px]'>
       <div className='col-span-4 border rounded container py-10 lg:col-span-3'>
-        <div>
+        <div className='space-x-2'>
           {content.tags.map((tag) => (
             <Badge key={tag.id} variant='outline' className='h-8 space-x-1'>
               <span>#</span>
               <span>{tag.name}</span>
             </Badge>
           ))}
-        </div>
-        <div className='mt-6'>
-          <img src={content.eyecatch.url} loading='lazy' />
         </div>
         <div id='article'>{parse(content.content)}</div>
       </div>
