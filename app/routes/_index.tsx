@@ -5,7 +5,6 @@ import { Link } from '@remix-run/react'
 import { createClient } from 'microcms-js-sdk'
 import { typedjson, useTypedLoaderData } from 'remix-typedjson'
 import { Badge } from '~/components/ui/badge'
-import top from '~/image/top.png'
 
 export const meta: MetaFunction = () => {
   return [
@@ -36,18 +35,9 @@ export default function Index() {
 
   return (
     <div>
-      <div className='flex justify-center'>
-        <div className='w-full h-40 bg-muted max-w-[1920px] sm:h-80 lg:h-[520px] 2xl:h-[739px]'>
-          <img
-            src={top}
-            loading='lazy'
-            className='object-cover h-[100%] w-[100%]'
-          />
-        </div>
-      </div>
-      <div className='container mx-auto w-full max-w-[1120px] py-10'>
-        <div className='mb-10'>
-          <h2 className='dot-font text-center text-xl font-semibold tracking-wider'>
+      <div className='container mx-auto w-full max-w-[1120px] py-8 md:py-10'>
+        <div className='mb-10 space-y-10 dot-font'>
+          <h2 className='text-center text-xl font-semibold tracking-wider'>
             最新記事
           </h2>
         </div>

@@ -7,7 +7,7 @@ const NAV_ITEMS = [
   },
   {
     path: '/technology',
-    name: '技術',
+    name: 'テクノロジー',
   },
   {
     path: '/gadget',
@@ -25,7 +25,7 @@ const NAV_ITEMS = [
 
 export const Navbar = () => {
   return (
-    <nav className='hidden md:block md:h-10 md:mb-6 dot-font'>
+    <nav className='h-10 mb-6 dot-font'>
       <ul className='flex justify-center font-semibold text-sm'>
         {NAV_ITEMS.map((item) => (
           <li
