@@ -21,6 +21,10 @@ export const loader = async ({ context }: LoaderFunctionArgs) => {
 
   const response = await client.getList<Blog>({
     endpoint: 'blogs',
+    queries: {
+      orders: '-createdAt',
+      filters: 'category[equals]cts2m7mxjt5m',
+    },
   })
   return typedjson({ response })
 }
@@ -31,11 +35,9 @@ export default function Dairy() {
 
   return (
     <div className='container mx-auto w-full max-w-[1120px] py-10'>
-      <div className='mb-10 space-y-4 dot-font'>
-        <h2 className='text-center text-xl font-semibold tracking-wider'>
-          日々のこと
-        </h2>
-        <p className='text-center tracking-wider'>
+      <div className='mb-10 space-y-4'>
+        <h2 className='text-center text-xl font-semibold'>日々のこと</h2>
+        <p className='text-center'>
           誰に向けるわけでもなく、日々のことを呟きます
         </p>
       </div>
@@ -47,7 +49,9 @@ export default function Dairy() {
         </div>
       ) : (
         <div>
-          <p className='text-muted-foreground'>記事が見つかりません</p>
+          <p className='text-muted-foreground text-center'>
+            記事が見つかりません
+          </p>
         </div>
       )}
     </div>

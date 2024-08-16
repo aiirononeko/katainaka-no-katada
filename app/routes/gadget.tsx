@@ -22,6 +22,10 @@ export const loader = async ({ context }: LoaderFunctionArgs) => {
 
   const response = await client.getList<Blog>({
     endpoint: 'blogs',
+    queries: {
+      orders: '-createdAt',
+      filters: 'category[equals]rm7cv_q339o',
+    },
   })
   return typedjson({ response })
 }
@@ -32,11 +36,9 @@ export default function Gadget() {
 
   return (
     <div className='container mx-auto w-full max-w-[1120px] py-10'>
-      <div className='mb-10 space-y-4 dot-font'>
-        <h2 className='text-center text-xl font-semibold tracking-wider'>
-          ガジェット
-        </h2>
-        <p className='text-center tracking-wider'>
+      <div className='mb-10 space-y-4'>
+        <h2 className='text-center text-xl font-semibold'>ガジェット</h2>
+        <p className='text-center'>
           ガジェオタエンジニアの私が語る最高のガジェット
         </p>
       </div>
@@ -48,7 +50,9 @@ export default function Gadget() {
         </div>
       ) : (
         <div>
-          <p className='text-muted-foreground'>記事が見つかりません</p>
+          <p className='text-muted-foreground text-center'>
+            記事が見つかりません
+          </p>
         </div>
       )}
     </div>

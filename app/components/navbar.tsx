@@ -25,7 +25,7 @@ const NAV_ITEMS = [
 
 export const Navbar = () => {
   return (
-    <nav className='h-10 mb-6 dot-font'>
+    <nav className='h-10 mb-6'>
       <ul className='flex justify-center font-semibold text-sm'>
         {NAV_ITEMS.map((item) => (
           <li

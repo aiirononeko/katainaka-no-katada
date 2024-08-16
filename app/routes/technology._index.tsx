@@ -1,16 +1,15 @@
-import { LoaderFunctionArgs } from '@remix-run/cloudflare'
-import type { MetaFunction } from '@remix-run/cloudflare'
+import { LoaderFunctionArgs, MetaFunction } from '@remix-run/cloudflare'
 import { createClient } from 'microcms-js-sdk'
 import { typedjson, useTypedLoaderData } from 'remix-typedjson'
 import { ContentCard } from '~/components/content-card'
 
 export const meta: MetaFunction = () => {
   return [
-    { title: 'トップページ | キッサカタダ' },
+    { title: 'テクノロジー | キッサカタダ' },
     {
       name: 'description',
       content:
-        'キッサカタダへようこそ。マスター兼ソフトウェアエンジニアのカタダが技術や趣味のことを記事にしています。',
+        'キッサカタダへようこそ。マスター兼ソフトウェアエンジニアのカタダが技術記事を綴ります。',
     },
   ]
 }
@@ -25,24 +24,21 @@ export const loader = async ({ context }: LoaderFunctionArgs) => {
     endpoint: 'blogs',
     queries: {
       orders: '-createdAt',
+      filters: 'category[equals]7m4n94d190',
     },
   })
   return typedjson({ response })
 }
 
-export default function Index() {
+export default function Technology() {
   const { response } = useTypedLoaderData<typeof loader>()
   const { contents } = response
 
   return (
-    <div className='container mx-auto w-full max-w-[1120px] py-8 md:py-10'>
-      <div className='mb-10 space-y-10'>
-        <div className='mb-10 space-y-4'>
-          <h2 className='text-center text-xl font-semibold'>最新記事</h2>
-          <p className='text-center'>
-            マスターカタダおすすめの記事をご覧ください
-          </p>
-        </div>
+    <div className='container mx-auto w-full max-w-[1120px] py-10'>
+      <div className='mb-10 space-y-4'>
+        <h2 className='text-center text-xl font-semibold'>テクノロジー</h2>
+        <p className='text-center'>フロントエンド成分おおめ</p>
       </div>
       {contents.length > 0 ? (
         <div className='grid md:grid-cols-2 lg:grid-cols-3 gap-8'>

@@ -22,6 +22,7 @@ interface Category {
   publishedAt: string
   revisedAt: string
   name: string
+  slug: string
 }
 
 interface Tag {

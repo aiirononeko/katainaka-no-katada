@@ -23,6 +23,10 @@ export const loader = async ({ context }: LoaderFunctionArgs) => {
 
   const response = await client.getList<Blog>({
     endpoint: 'blogs',
+    queries: {
+      orders: '-createdAt',
+      filters: 'category[equals]7cjyhtfwub',
+    },
   })
   return typedjson({ response })
 }
@@ -33,13 +37,9 @@ export default function Coffee() {
 
   return (
     <div className='container mx-auto w-full max-w-[1120px] py-10'>
-      <div className='mb-10 space-y-4 dot-font'>
-        <h2 className='text-center text-xl font-semibold tracking-wider'>
-          コーヒー
-        </h2>
-        <p className='text-center tracking-wider'>
-          元バリスタが語るコーヒー談義
-        </p>
+      <div className='mb-10 space-y-4'>
+        <h2 className='text-center text-xl font-semibold'>コーヒー</h2>
+        <p className='text-center'>元バリスタが語るコーヒー談義</p>
       </div>
       {contents.length > 0 ? (
         <div className='grid md:grid-cols-2 lg:grid-cols-3 gap-8'>
@@ -49,7 +49,9 @@ export default function Coffee() {
         </div>
       ) : (
         <div>
-          <p className='text-muted-foreground'>記事が見つかりません</p>
+          <p className='text-muted-foreground text-center'>
+            記事が見つかりません
+          </p>
         </div>
       )}
     </div>
