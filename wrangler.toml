@@ -16,7 +16,7 @@ pages_build_output_dir = "./build/client"
 # Note: Use secrets to store sensitive data.
 # - https://developers.cloudflare.com/pages/functions/bindings/#secrets
 [vars]
-BUN_VERSION = "1.1.22"
+BUN_VERSION = "1.1.23"
 
 # Bind the Workers AI model catalog. Run machine learning models, powered by serverless GPUs, on Cloudflare’s global network
 # Docs: https://developers.cloudflare.com/pages/functions/bindings/#workers-ai
@@ -78,7 +78,7 @@ BUN_VERSION = "1.1.22"
 ######## PRODUCTION environment config ########
 
 [env.production.vars]
-BUN_VERSION = "1.1.22"
+BUN_VERSION = "1.1.23"
 
 # [[env.production.kv_namespaces]]
 # binding = "MY_KV_NAMESPACE"
