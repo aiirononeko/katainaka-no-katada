@@ -47,7 +47,7 @@ export default function Index() {
       </div>
       <div className='container mx-auto w-full max-w-[1120px] py-10'>
         <div className='mb-10'>
-          <h2 className='text-center text-xl font-semibold tracking-wider'>
+          <h2 className='dot-font text-center text-xl font-semibold tracking-wider'>
             最新記事
           </h2>
         </div>

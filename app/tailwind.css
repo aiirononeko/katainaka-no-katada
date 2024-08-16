@@ -68,6 +68,12 @@
   }
 }
 
+.dot-font {
+  font-family: DotGothic16, sans-serif;
+  font-weight: 500;
+  font-style: normal;
+}
+
 #article h2 {
   font-size: 24px;
   font-weight: 700;

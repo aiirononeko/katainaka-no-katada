@@ -3,7 +3,7 @@ import { NavLink } from '@remix-run/react'
 const NAV_ITEMS = [
   {
     path: '/',
-    name: 'TOP',
+    name: 'トップ',
   },
   {
     path: '/technology',
@@ -25,7 +25,7 @@ const NAV_ITEMS = [
 
 export const Navbar = () => {
   return (
-    <nav className='hidden md:block md:h-10 md:mb-6'>
+    <nav className='hidden md:block md:h-10 md:mb-6 dot-font'>
       <ul className='flex justify-center font-semibold text-sm'>
         {NAV_ITEMS.map((item) => (
           <li

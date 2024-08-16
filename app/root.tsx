@@ -1,4 +1,4 @@
-import { LoaderFunctionArgs, json } from '@remix-run/cloudflare'
+import { LinksFunction, LoaderFunctionArgs, json } from '@remix-run/cloudflare'
 import {
   Links,
   Meta,
@@ -15,6 +15,24 @@ import { Footer } from './components/footer'
 import { Header } from './components/header'
 import { Navbar } from './components/navbar'
 import './tailwind.css'
+
+export const links: LinksFunction = () => {
+  return [
+    {
+      rel: 'preconnect',
+      href: 'https://fonts.googleapis.com',
+    },
+    {
+      rel: 'preconnect',
+      href: 'https://fonts.gstatic.com',
+      crossOrigin: 'anonymous',
+    },
+    {
+      rel: 'stylesheet',
+      href: 'https://fonts.googleapis.com/css2?family=DotGothic16&display=swap',
+    },
+  ]
+}
 
 export const loader = async ({ context }: LoaderFunctionArgs) => {
   return json({
