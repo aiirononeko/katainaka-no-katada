@@ -28,6 +28,12 @@ export const links: LinksFunction = () => {
       crossOrigin: 'anonymous',
     },
     {
+      rel: 'preload',
+      as: 'style',
+      fetchpriority: 'high',
+      href: 'https://fonts.googleapis.com/css2?family=DotGothic16&display=swap',
+    },
+    {
       rel: 'stylesheet',
       href: 'https://fonts.googleapis.com/css2?family=DotGothic16&display=swap',
     },

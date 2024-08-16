@@ -68,10 +68,11 @@
   }
 }
 
-.dot-font {
+body {
   font-family: DotGothic16, sans-serif;
   font-weight: 500;
   font-style: normal;
+  letter-spacing: 2px;
 }
 
 #article h2 {
