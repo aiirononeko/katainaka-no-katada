@@ -14,21 +14,21 @@ export const Introduce = () => {
         </Avatar>
         <div className='space-y-2'>
           <p className='font-bold tracking-wider'>カタダ リョウタ</p>
-          <div className='flex flex-row gap-2'>
+          <div className='flex flex-row gap-2 items-baseline'>
             <Link to='https://github.com/aiirononeko' target='_blank'>
-              <img src={github} width='18px' height='18px' />
+              <img src={github} width='24px' height='24px' />
             </Link>
             <Link to='https://x.com/aiirononeko2' target='_blank'>
-              <img src={x} width='18px' height='18px' />
+              <img src={x} width='20px' height='20px' />
             </Link>
           </div>
         </div>
       </div>
       <div className='py-1'>
-        <p className='tracking-wider'>
+        <p className='tracking-wider text-sm leading-6'>
           キッサカタダマスター兼フロントエンド寄りのソフトウェアエンジニア。
         </p>
-        <p className='tracking-wider'>多趣味に生きてます。</p>
+        <p className='tracking-wider text-sm leading-6'>多趣味に生きてます。</p>
       </div>
     </div>
   )

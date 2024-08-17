@@ -30,7 +30,7 @@ export const Navbar = () => {
         {NAV_ITEMS.map((item) => (
           <li
             key={`${item.name}_${Math.random()}`}
-            className='h-12 w-32 flex items-center justify-center hover:bg-muted hover:underline'
+            className='h-12 w-32 flex items-center justify-center tracking-wide sm:tracking-widest hover:bg-muted hover:underline'
           >
             <NavLink
               to={item.path}
