@@ -10,7 +10,7 @@ interface Props {
 export const ContentDetail = ({ content }: Props) => {
   return (
     <div className='container mx-auto grid grid-cols-4 gap-8 w-full max-w-[1120px]'>
-      <div className='col-span-4 border rounded py-6 px-4 sm:px-10 md:py-10 lg:col-span-3'>
+      <div className='col-span-4 sm:border rounded py-2 sm:py-6 sm:px-10 md:py-10 lg:col-span-3'>
         <div className='space-x-2'>
           {content.tags.map((tag) => (
             <Badge key={tag.id} variant='outline' className='h-8 space-x-1'>

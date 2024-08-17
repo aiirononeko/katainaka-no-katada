@@ -6,6 +6,10 @@ const NAV_ITEMS = [
     name: 'トップ',
   },
   {
+    path: '/dairy',
+    name: '日々のこと',
+  },
+  {
     path: '/technology',
     name: 'テック',
   },
@@ -16,10 +20,6 @@ const NAV_ITEMS = [
   {
     path: '/coffee',
     name: 'コーヒー',
-  },
-  {
-    path: '/dairy',
-    name: '日々のこと',
   },
 ]
 
