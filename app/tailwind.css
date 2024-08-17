@@ -109,9 +109,11 @@ body {
 #article p code {
   color: #5b7c99;
   background-color: hsl(var(--border));
-  padding: 8px;
+  padding: 4px;
   border-radius: 5px;
   margin-right: 10px;
+  font-size: 12px;
+  letter-spacing: 1px;
 }
 
 #article p a:hover {
