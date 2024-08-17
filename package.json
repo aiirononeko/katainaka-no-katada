@@ -17,6 +17,7 @@
     "**/*": "prettier --write --ignore-unknown"
   },
   "dependencies": {
+    "@cloudflare/pages-plugin-vercel-og": "^0.1.2",
     "@formkit/tempo": "^0.1.2",
     "@radix-ui/react-avatar": "^1.1.0",
     "@radix-ui/react-slot": "^1.1.0",
