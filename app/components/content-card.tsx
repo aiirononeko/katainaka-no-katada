@@ -14,7 +14,11 @@ export const ContentCard = ({ content }: Props) => {
     >
       <div className='border col-span-1 space-y-4 pb-4'>
         <div className='h-[180px]'>
-          <img src={content.eyecatch.url} className='h-[180px]' />
+          <img
+            src={content.eyecatch.url}
+            className='h-[180px]'
+            loading='lazy'
+          />
         </div>
         <div className='px-3 space-x-2'>
           {content.tags.map((tag) => (
