@@ -75,7 +75,17 @@ body {
   letter-spacing: 3px;
 }
 
-#article h2 {
+#article h2:first-child {
+  font-size: 24px;
+  font-weight: 700;
+  line-height: 36px;
+  margin-top: 32px;
+  margin-bottom: 20px;
+  padding-bottom: 8px;
+  border-bottom: solid 1px rgb(100, 116, 139);
+}
+
+#article h2:not(:first-child) {
   font-size: 24px;
   font-weight: 700;
   line-height: 36px;
