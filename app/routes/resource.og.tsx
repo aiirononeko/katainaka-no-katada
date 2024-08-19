@@ -31,75 +31,70 @@ export const loader = async ({ request, context }: LoaderFunctionArgs) => {
     contentId: id,
   })
 
-  return (
-    new ImageResponse(
-      (
+  return new ImageResponse(
+    (
+      <div
+        style={{
+          width: OG_IMAGE_WIDTH,
+          height: OG_IMAGE_HEIGHT,
+          background: 'white',
+          color: 'black',
+          fontFamily: 'DotGothic16',
+          fontSize: 80,
+          display: 'flex',
+          flexFlow: 'column',
+          justifyContent: 'center',
+          alignItems: 'center',
+          letterSpacing: '4px',
+        }}
+      >
         <div
           style={{
             width: OG_IMAGE_WIDTH,
-            height: OG_IMAGE_HEIGHT,
-            background: 'white',
-            color: 'black',
-            fontFamily: 'DotGothic16',
-            fontSize: 80,
+            padding: '80px',
+          }}
+        >
+          {content.title}
+        </div>
+        <div
+          style={{
+            width: OG_IMAGE_WIDTH,
             display: 'flex',
-            flexFlow: 'column',
-            justifyContent: 'center',
-            alignItems: 'center',
-            letterSpacing: '4px',
+            justifyContent: 'space-between',
+            alignItems: 'baseline',
           }}
         >
           <div
             style={{
-              width: OG_IMAGE_WIDTH,
-              padding: '80px',
+              paddingLeft: '80px',
+              fontSize: '32px',
+              textAlign: 'left',
             }}
           >
-            {content.title}
+            {format(content.createdAt, 'YYYY-MM-DD')}
           </div>
           <div
             style={{
-              width: OG_IMAGE_WIDTH,
-              display: 'flex',
-              justifyContent: 'space-between',
-              alignItems: 'baseline',
+              paddingRight: '80px',
+              fontSize: '48px',
+              textAlign: 'right',
             }}
           >
-            <div
-              style={{
-                paddingLeft: '80px',
-                fontSize: '32px',
-                textAlign: 'left',
-              }}
-            >
-              {format(content.createdAt, 'YYYY-MM-DD')}
-            </div>
-            <div
-              style={{
-                paddingRight: '80px',
-                fontSize: '48px',
-                textAlign: 'right',
-              }}
-            >
-              キッサ カタダ
-            </div>
+            キッサ カタダ
           </div>
         </div>
-      ),
-      {
-        width: OG_IMAGE_WIDTH,
-        height: OG_IMAGE_HEIGHT,
-        fonts: [
-          {
-            name: 'DotGothic16',
-            data: fontData,
-            style: 'normal',
-          },
-        ],
-      },
+      </div>
     ),
     {
-      status: 200,
-    }
+      width: OG_IMAGE_WIDTH,
+      height: OG_IMAGE_HEIGHT,
+      fonts: [
+        {
+          name: 'DotGothic16',
+          data: fontData,
+          style: 'normal',
+        },
+      ],
+    },
   )
 }
