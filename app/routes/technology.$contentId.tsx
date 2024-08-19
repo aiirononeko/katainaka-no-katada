@@ -1,26 +1,33 @@
 import { format } from '@formkit/tempo'
-import { json, useLoaderData } from '@remix-run/react'
+import { MetaFunction, json } from '@remix-run/cloudflare'
+import { useLoaderData } from '@remix-run/react'
 import { RefreshCcw } from 'lucide-react'
 import { createClient } from 'microcms-js-sdk'
 import { LoaderFunctionArgs } from 'react-router'
 import invariant from 'tiny-invariant'
 import { ContentDetail } from '~/components/content-detail'
 
-export const loader = async ({ params, context }: LoaderFunctionArgs) => {
+export const loader = async ({
+  request,
+  params,
+  context,
+}: LoaderFunctionArgs) => {
   invariant(params.contentId, '記事IDが指定されていません')
 
-  const { env } = context.cloudflare
-
   const client = createClient({
-    serviceDomain: env.MICROCMS_SERVICE_DOMAIN,
-    apiKey: env.MICROCMS_API_KEY,
+    serviceDomain: context.cloudflare.env.MICROCMS_SERVICE_DOMAIN,
+    apiKey: context.cloudflare.env.MICROCMS_API_KEY,
   })
 
   const content = await client.get<Blog>({
     endpoint: 'blogs',
     contentId: params.contentId,
   })
-  return json({ content })
+
+  const { origin } = new URL(request.url)
+  const ogImageUrl = `${origin}/resource/og?id=${content.id}`
+
+  return json({ content, ogImageUrl })
 }
 
 export default function TechnologyContent() {
@@ -48,4 +55,25 @@ export default function TechnologyContent() {
       <ContentDetail content={content} />
     </article>
   )
+}
+
+export const meta: MetaFunction<typeof loader> = ({ data }) => {
+  if (!data) return []
+
+  const { content, ogImageUrl } = data
+
+  return [
+    { title: `${content.title} | キッサカタダ` },
+    {
+      name: 'description',
+      content:
+        'キッサカタダへようこそ。マスター兼ソフトウェアエンジニアのカタダが技術記事を書いています。',
+    },
+    { 'og:title': content.title },
+    { 'og:image:width': '1200' },
+    { 'og:image:height': '630' },
+    { 'og:image': ogImageUrl },
+    { 'twitter:card': 'summary_large_image' },
+    { 'twitter:title': content.title },
+  ]
 }

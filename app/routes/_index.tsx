@@ -5,8 +5,6 @@ import { typedjson, useTypedLoaderData } from 'remix-typedjson'
 import { ContentCard } from '~/components/content-card'
 
 export const meta: MetaFunction = () => {
-  const ogImage = 'https://www.kissa-katada.com/og?title=キッサカタダ'
-
   return [
     { title: 'トップページ | キッサカタダ' },
     {
@@ -15,37 +13,8 @@ export const meta: MetaFunction = () => {
         'キッサカタダへようこそ。マスター兼ソフトウェアエンジニアのカタダが技術や趣味のことを記事にしています。',
     },
     {
-      property: 'og:url',
-      content: ogImage,
-    },
-    {
-      property: 'og:title',
-      content: 'トップページ | キッサカタダ',
-    },
-    {
-      property: 'og:description',
-      content:
-        'キッサカタダへようこそ。マスター兼ソフトウェアエンジニアのカタダが技術や趣味のことを記事にしています。',
-    },
-    {
       property: 'og:image',
-      content: ogImage,
-    },
-    {
-      property: 'og:site_name',
-      content: 'キッサカタダ',
-    },
-    {
-      property: 'twitter:card',
-      content: 'summary_large_image',
-    },
-    {
-      property: 'twitter:creater',
-      content: '@aiirononeko2',
-    },
-    {
-      property: 'twitter:site',
-      content: '@aiirononeko2',
+      content: '', // TODO:
     },
   ]
 }

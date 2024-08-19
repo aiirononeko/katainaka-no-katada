@@ -1,18 +1,7 @@
-import { LoaderFunctionArgs, MetaFunction } from '@remix-run/cloudflare'
+import { LoaderFunctionArgs, MetaFunction, json } from '@remix-run/cloudflare'
+import { useLoaderData } from '@remix-run/react'
 import { createClient } from 'microcms-js-sdk'
-import { typedjson, useTypedLoaderData } from 'remix-typedjson'
 import { ContentCard } from '~/components/content-card'
-
-export const meta: MetaFunction = () => {
-  return [
-    { title: 'テクノロジー | キッサカタダ' },
-    {
-      name: 'description',
-      content:
-        'キッサカタダへようこそ。マスター兼ソフトウェアエンジニアのカタダが技術記事を綴ります。',
-    },
-  ]
-}
 
 export const loader = async ({ context }: LoaderFunctionArgs) => {
   const client = createClient({
@@ -27,11 +16,12 @@ export const loader = async ({ context }: LoaderFunctionArgs) => {
       filters: 'category[equals]7m4n94d190',
     },
   })
-  return typedjson({ response })
+
+  return json({ response })
 }
 
 export default function Technology() {
-  const { response } = useTypedLoaderData<typeof loader>()
+  const { response } = useLoaderData<typeof loader>()
   const { contents } = response
 
   return (
@@ -59,4 +49,15 @@ export default function Technology() {
       )}
     </div>
   )
+}
+
+export const meta: MetaFunction<typeof loader> = ({ data }) => {
+  return [
+    { title: 'テクノロジー | キッサカタダ' },
+    {
+      name: 'description',
+      content:
+        'キッサカタダへようこそ。マスター兼ソフトウェアエンジニアのカタダが技術記事を書いています。',
+    },
+  ]
 }
