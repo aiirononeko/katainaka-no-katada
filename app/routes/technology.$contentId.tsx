@@ -7,11 +7,7 @@ import { LoaderFunctionArgs } from 'react-router'
 import invariant from 'tiny-invariant'
 import { ContentDetail } from '~/components/content-detail'
 
-export const loader = async ({
-  request,
-  params,
-  context,
-}: LoaderFunctionArgs) => {
+export const loader = async ({ params, context }: LoaderFunctionArgs) => {
   invariant(params.contentId, '記事IDが指定されていません')
 
   const client = createClient({
@@ -24,10 +20,7 @@ export const loader = async ({
     contentId: params.contentId,
   })
 
-  const { origin } = new URL(request.url)
-  const ogImageUrl = `${origin}/resource/og?id=${content.id}`
-
-  return json({ content, ogImageUrl })
+  return json({ content })
 }
 
 export default function TechnologyContent() {
@@ -60,7 +53,7 @@ export default function TechnologyContent() {
 export const meta: MetaFunction<typeof loader> = ({ data }) => {
   if (!data) return []
 
-  const { content, ogImageUrl } = data
+  const { content } = data
 
   return [
     { title: `${content.title} | キッサカタダ` },
@@ -74,7 +67,6 @@ export const meta: MetaFunction<typeof loader> = ({ data }) => {
     { 'og:title': content.title },
     { 'og:description': content.description },
     { 'og:type': 'website' },
-    { 'og:image': ogImageUrl },
     { 'twitter:card': 'summary_large_image' },
     { 'twitter:title': content.title },
     { 'twitter:creator': '@aiirononeko2' },
