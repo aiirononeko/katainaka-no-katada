@@ -66,14 +66,16 @@ export const meta: MetaFunction<typeof loader> = ({ data }) => {
     { title: `${content.title} | キッサカタダ` },
     {
       name: 'description',
-      content:
-        'キッサカタダへようこそ。マスター兼ソフトウェアエンジニアのカタダが技術記事を書いています。',
+      content: content.description,
     },
     { 'og:title': content.title },
+    { 'og:description': content.description },
+    { 'og:type': 'website' },
     { 'og:image:width': '1200' },
     { 'og:image:height': '630' },
     { 'og:image': ogImageUrl },
     { 'twitter:card': 'summary_large_image' },
     { 'twitter:title': content.title },
+    { 'twitter:creator': '@aiirononeko2' },
   ]
 }
