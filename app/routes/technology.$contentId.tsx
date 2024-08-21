@@ -69,35 +69,35 @@ export const meta: MetaFunction<typeof loader> = ({ data }) => {
       content: content.description,
     },
     {
-      name: 'og:url',
+      property: 'og:url',
       content: `https\://www.kissa-katada.com/${content.category.slug}/${content.id}`,
     },
     {
-      name: 'og:image',
+      property: 'og:image',
       content: ogImageUrl,
     },
     {
-      name: 'og:title',
+      property: 'og:title',
       content: content.title,
     },
     {
-      name: 'og:description',
+      property: 'og:description',
       content: content.description,
     },
     {
-      name: 'og:type',
+      property: 'og:type',
       content: 'website',
     },
     {
-      name: 'twitter:card',
+      property: 'twitter:card',
       content: 'summary_large_image',
     },
     {
-      name: 'twitter:title',
+      property: 'twitter:title',
       content: content.title,
     },
     {
-      name: 'twitter:creator',
+      property: 'twitter:creator',
       content: '@aiirononeeko2',
     },
   ]
