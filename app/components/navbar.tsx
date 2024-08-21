@@ -6,7 +6,7 @@ const NAV_ITEMS = [
     name: 'トップ',
   },
   {
-    path: '/daily',
+    path: '/diary',
     name: '日々のこと',
   },
   {

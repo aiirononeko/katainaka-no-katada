@@ -1,14 +1,16 @@
-import { LoaderFunctionArgs, MetaFunction } from '@remix-run/cloudflare'
+import { LoaderFunctionArgs } from '@remix-run/cloudflare'
+import { MetaFunction } from '@remix-run/cloudflare'
 import { createClient } from 'microcms-js-sdk'
 import { typedjson, useTypedLoaderData } from 'remix-typedjson'
 import { ContentCard } from '~/components/content-card'
 
 export const meta: MetaFunction = () => {
   return [
-    { title: '日々のこと | キッサカタダ' },
+    { title: 'コーヒー | キッサカタダ' },
     {
       name: 'description',
-      content: 'キッサカタダへようこそ。マスターのカタダの日常を呟いています。',
+      content:
+        'キッサカタダへようこそ。元バリスタのマスターカタダが、コーヒーのことを雑多に呟いてます。',
     },
   ]
 }
@@ -23,13 +25,13 @@ export const loader = async ({ context }: LoaderFunctionArgs) => {
     endpoint: 'blogs',
     queries: {
       orders: '-createdAt',
-      filters: 'category[equals]cts2m7mxjt5m',
+      filters: 'category[equals]7cjyhtfwub',
     },
   })
   return typedjson({ response })
 }
 
-export default function Dairy() {
+export default function Coffee() {
   const { response } = useTypedLoaderData<typeof loader>()
   const { contents } = response
 
@@ -37,10 +39,10 @@ export default function Dairy() {
     <div className='container mx-auto w-full max-w-[1120px] py-8 md:py-10'>
       <div className='mb-10 space-y-4'>
         <h2 className='text-center text-md md:text-xl font-semibold'>
-          日々のこと
+          コーヒー
         </h2>
         <p className='text-center text-sm md:text-md'>
-          誰に向けるわけでもなく、日々のことを呟きます
+          元バリスタが語るコーヒー談義
         </p>
       </div>
       {contents.length > 0 ? (
