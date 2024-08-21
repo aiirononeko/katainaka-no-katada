@@ -96,9 +96,5 @@ export const meta: MetaFunction<typeof loader> = ({ data }) => {
       property: 'twitter:title',
       content: content.title,
     },
-    {
-      property: 'twitter:creator',
-      content: '@aiirononeeko2',
-    },
   ]
 }
