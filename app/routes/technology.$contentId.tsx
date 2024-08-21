@@ -7,7 +7,11 @@ import { LoaderFunctionArgs } from 'react-router'
 import invariant from 'tiny-invariant'
 import { ContentDetail } from '~/components/content-detail'
 
-export const loader = async ({ params, context }: LoaderFunctionArgs) => {
+export const loader = async ({
+  request,
+  params,
+  context,
+}: LoaderFunctionArgs) => {
   invariant(params.contentId, '記事IDが指定されていません')
 
   const client = createClient({
@@ -20,7 +24,10 @@ export const loader = async ({ params, context }: LoaderFunctionArgs) => {
     contentId: params.contentId,
   })
 
-  return json({ content })
+  const { origin } = new URL(request.url)
+  const ogImageUrl = `${origin}/resource/og?id=${content.id}`
+
+  return json({ content, ogImageUrl })
 }
 
 export default function TechnologyContent() {
@@ -53,7 +60,7 @@ export default function TechnologyContent() {
 export const meta: MetaFunction<typeof loader> = ({ data }) => {
   if (!data) return []
 
-  const { content } = data
+  const { content, ogImageUrl } = data
 
   return [
     { title: `${content.title} | キッサカタダ` },
@@ -62,13 +69,36 @@ export const meta: MetaFunction<typeof loader> = ({ data }) => {
       content: content.description,
     },
     {
-      'og:url': `https\://www.kissa-katada.com/${content.category.slug}/${content.id}`,
+      name: 'og:url',
+      content: `https\://www.kissa-katada.com/${content.category.slug}/${content.id}`,
     },
-    { 'og:title': content.title },
-    { 'og:description': content.description },
-    { 'og:type': 'website' },
-    { 'twitter:card': 'summary_large_image' },
-    { 'twitter:title': content.title },
-    { 'twitter:creator': '@aiirononeko2' },
+    {
+      name: 'og:image',
+      content: ogImageUrl,
+    },
+    {
+      name: 'og:title',
+      content: content.title,
+    },
+    {
+      name: 'og:description',
+      content: content.description,
+    },
+    {
+      name: 'og:type',
+      content: 'website',
+    },
+    {
+      name: 'twitter:card',
+      content: 'summary_large_image',
+    },
+    {
+      name: 'twitter:title',
+      content: content.title,
+    },
+    {
+      name: 'twitter:creator',
+      content: '@aiirononeeko2',
+    },
   ]
 }
