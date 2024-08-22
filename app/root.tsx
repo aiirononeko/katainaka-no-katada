@@ -100,7 +100,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <Meta />
         <Links />
       </head>
-      <body className='min-h-screen'>
+      <body className='min-h-screen relative'>
         <Header />
         <Navbar />
         {children}

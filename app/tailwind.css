@@ -164,3 +164,50 @@ body {
   padding: 12px;
   overflow: auto;
 }
+
+.toc {
+  .toc-list {
+    .toc-list-item {
+      font-size: 14px;
+      margin: 8px 0;
+      padding-left: 20px;
+      position: relative;
+      color: rgb(125, 134, 145);
+    }
+
+    .toc-list-item::before {
+      position: absolute;
+      top: 4px;
+      left: 0;
+      width: 12px;
+      height: 12px;
+      content: '';
+      background: rgb(125, 134, 145);
+      border: 2px solid #fff;
+    }
+
+    .toc-list-item.is-active-li {
+      color: rgb(2, 8, 23);
+      font-weight: bold;
+      text-decoration: underline;
+    }
+
+    .toc-list-item.is-active-li::before {
+      background: rgb(2, 8, 23);
+    }
+
+    .toc-list {
+      margin: 8px 0;
+
+      .toc-list-item {
+        margin: 10px 0;
+        font-size: 13px;
+      }
+
+      .toc-list-item::before {
+        width: 10px;
+        height: 10px;
+      }
+    }
+  }
+}
