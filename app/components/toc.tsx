@@ -3,7 +3,6 @@ import tocbot from 'tocbot'
 
 export const Toc = () => {
   useEffect(() => {
-    console.log('init')
     tocbot.init({
       tocSelector: '.toc',
       contentSelector: '.article',
@@ -13,7 +12,7 @@ export const Toc = () => {
     })
 
     return () => tocbot.destroy()
-  }, [tocbot])
+  }, [])
 
   return <nav className='toc' />
 }
