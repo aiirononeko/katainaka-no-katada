@@ -114,6 +114,7 @@ body {
 #article p a {
   color: #5b7c99;
   text-decoration: underline;
+  word-break: break-all;
 }
 
 #article p code {
@@ -163,6 +164,10 @@ body {
   background-color: #252525;
   padding: 12px;
   overflow: auto;
+}
+
+#article figure {
+  margin: 32px 0;
 }
 
 .toc {
