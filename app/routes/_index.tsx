@@ -1,23 +1,8 @@
-import { LoaderFunctionArgs } from '@remix-run/cloudflare'
+import { LoaderFunctionArgs, json } from '@remix-run/cloudflare'
 import type { MetaFunction } from '@remix-run/cloudflare'
+import { useLoaderData } from '@remix-run/react'
 import { createClient } from 'microcms-js-sdk'
-import { typedjson, useTypedLoaderData } from 'remix-typedjson'
 import { ContentCard } from '~/components/content-card'
-
-export const meta: MetaFunction = () => {
-  return [
-    { title: 'トップページ | キッサカタダ' },
-    {
-      name: 'description',
-      content:
-        'キッサカタダへようこそ。マスター兼ソフトウェアエンジニアのカタダが技術や趣味のことを記事にしています。',
-    },
-    {
-      property: 'og:image',
-      content: '', // TODO:
-    },
-  ]
-}
 
 export const loader = async ({ context }: LoaderFunctionArgs) => {
   const client = createClient({
@@ -31,11 +16,11 @@ export const loader = async ({ context }: LoaderFunctionArgs) => {
       orders: '-createdAt',
     },
   })
-  return typedjson({ response })
+  return json({ response })
 }
 
 export default function Index() {
-  const { response } = useTypedLoaderData<typeof loader>()
+  const { response } = useLoaderData<typeof loader>()
   const { contents } = response
 
   return (
@@ -63,4 +48,44 @@ export default function Index() {
       )}
     </div>
   )
+}
+
+export const meta: MetaFunction = () => {
+  return [
+    { title: 'トップページ | キッサカタダ' },
+    {
+      name: 'description',
+      content:
+        'キッサカタダへようこそ。キッサカタダマスター兼ソフトウェアエンジニアのカタダが技術や趣味のことを記事にしています。',
+    },
+    {
+      property: 'og:url',
+      content: 'https://www.kissa-katada.com',
+    },
+    {
+      property: 'og:image',
+      content: '',
+    },
+    {
+      property: 'og:title',
+      content: 'トップページ | キッサカタダ',
+    },
+    {
+      property: 'og:description',
+      content:
+        'キッサカタダへようこそ。キッサカタダマスター兼ソフトウェアエンジニアのカタダが技術や趣味のことを記事にしています。',
+    },
+    {
+      property: 'og:type',
+      content: 'website',
+    },
+    {
+      property: 'twitter:card',
+      content: 'summary_large_image',
+    },
+    {
+      property: 'twitter:title',
+      content: 'トップページ | キッサカタダ',
+    },
+  ]
 }

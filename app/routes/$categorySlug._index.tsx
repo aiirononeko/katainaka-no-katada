@@ -1,38 +1,45 @@
-import { LoaderFunctionArgs, MetaFunction, json } from '@remix-run/cloudflare'
+import { LoaderFunctionArgs, json } from '@remix-run/cloudflare'
+import { MetaFunction } from '@remix-run/cloudflare'
 import { useLoaderData } from '@remix-run/react'
 import { createClient } from 'microcms-js-sdk'
+import invariant from 'tiny-invariant'
+import { CATEGORIES } from '~/categories'
 import { ContentCard } from '~/components/content-card'
 
-export const loader = async ({ context }: LoaderFunctionArgs) => {
+export const loader = async ({ params, context }: LoaderFunctionArgs) => {
+  invariant(params.categorySlug, 'カテゴリが指定されていません')
+
   const client = createClient({
     serviceDomain: context.cloudflare.env.MICROCMS_SERVICE_DOMAIN,
     apiKey: context.cloudflare.env.MICROCMS_API_KEY,
   })
 
-  const response = await client.getList<Blog>({
+  const categoryIndex = CATEGORIES.findIndex(
+    (category) => category.slug === params.categorySlug,
+  )
+  const category = CATEGORIES[categoryIndex]
+
+  const { contents } = await client.getList<Blog>({
     endpoint: 'blogs',
     queries: {
       orders: '-createdAt',
-      filters: 'category[equals]7m4n94d190',
+      filters: `category[equals]${category.id}`,
     },
   })
 
-  return json({ response })
+  return json({ contents, category })
 }
 
-export default function Technology() {
-  const { response } = useLoaderData<typeof loader>()
-  const { contents } = response
+export default function Index() {
+  const { contents, category } = useLoaderData<typeof loader>()
 
   return (
     <div className='container mx-auto w-full max-w-[1120px] py-8 md:py-10'>
       <div className='mb-10 space-y-4'>
         <h2 className='text-center text-md md:text-xl font-semibold'>
-          テクノロジー
+          {category.name}
         </h2>
-        <p className='text-center text-sm md:text-md'>
-          フロントエンド成分おおめ
-        </p>
+        <p className='text-center text-sm md:text-md'>{category.description}</p>
       </div>
       {contents.length > 0 ? (
         <div className='grid lg:grid-cols-3 gap-8 justify-center'>
@@ -52,12 +59,14 @@ export default function Technology() {
 }
 
 export const meta: MetaFunction<typeof loader> = ({ data }) => {
+  if (!data) return []
+  const { category } = data
+
   return [
-    { title: 'テクノロジー | キッサカタダ' },
+    { title: `${category.name} | キッサカタダ` },
     {
       name: 'description',
-      content:
-        'キッサカタダへようこそ。マスター兼ソフトウェアエンジニアのカタダが技術記事を書いています。',
+      content: `キッサカタダへようこそ。${category.description}`,
     },
   ]
 }

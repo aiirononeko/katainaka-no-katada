@@ -12,7 +12,10 @@ export const loader = async ({
   params,
   context,
 }: LoaderFunctionArgs) => {
+  invariant(params.categorySlug, 'カテゴリが指定されていません')
   invariant(params.contentId, '記事IDが指定されていません')
+
+  const { origin } = new URL(request.url)
 
   const client = createClient({
     serviceDomain: context.cloudflare.env.MICROCMS_SERVICE_DOMAIN,
@@ -24,14 +27,25 @@ export const loader = async ({
     contentId: params.contentId,
   })
 
-  const { origin } = new URL(request.url)
-  const ogImageUrl = `${origin}/resource/og?id=${content.id}`
-
-  return json({ content, ogImageUrl })
+  return json({ content, origin })
 }
 
-export default function TechnologyContent() {
+export default function Content() {
   const { content } = useLoaderData<typeof loader>()
+
+  const createdAt = format({
+    date: content.createdAt,
+    format: 'YYYY/MM/DD',
+    locale: 'ja',
+    tz: 'Asia/Tokyo',
+  })
+
+  const updatedAt = format({
+    date: content.createdAt,
+    format: 'YYYY/MM/DD',
+    locale: 'ja',
+    tz: 'Asia/Tokyo',
+  })
 
   return (
     <article className='mb-14'>
@@ -42,11 +56,11 @@ export default function TechnologyContent() {
             {content.title}
           </h1>
           <div className='flex justify-center gap-3 text-muted-foreground text-sm'>
-            <div>{format(content.createdAt, 'YYYY/MM/DD')}に公開</div>
+            <div>{createdAt}に公開</div>
             {content.updatedAt && (
               <div className='flex items-center gap-1'>
                 <RefreshCcw className='size-4' />
-                {format(content.updatedAt, 'YYYY/MM/DD')}
+                {updatedAt}
               </div>
             )}
           </div>
@@ -59,11 +73,12 @@ export default function TechnologyContent() {
 
 export const meta: MetaFunction<typeof loader> = ({ data }) => {
   if (!data) return []
-
-  const { content, ogImageUrl } = data
+  const { content, origin } = data
 
   return [
-    { title: `${content.title} | キッサカタダ` },
+    {
+      title: `${content.title} | キッサカタダ`,
+    },
     {
       name: 'description',
       content: content.description,
@@ -74,7 +89,7 @@ export const meta: MetaFunction<typeof loader> = ({ data }) => {
     },
     {
       property: 'og:image',
-      content: ogImageUrl,
+      content: `${origin}/resource/og?id=${content.id}`,
     },
     {
       property: 'og:title',
