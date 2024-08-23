@@ -7,6 +7,13 @@ interface Props {
 }
 
 export const ContentCard = ({ content }: Props) => {
+  const createdAt = format({
+    date: content.createdAt,
+    format: 'YYYY/MM/DD',
+    locale: 'ja',
+    tz: 'Asia/Tokyo',
+  })
+
   return (
     <Link
       to={`/${content.category.slug}/${content.id}`}
@@ -33,9 +40,7 @@ export const ContentCard = ({ content }: Props) => {
         </div>
         <div className='px-4'>
           <p className='h-16 font-bold'>{content.title}</p>
-          <p className='text-muted-foreground text-end text-sm'>
-            {format(content.createdAt, 'YYYY/MM/DD')}
-          </p>
+          <p className='text-muted-foreground text-end text-sm'>{createdAt}</p>
         </div>
       </div>
     </Link>
