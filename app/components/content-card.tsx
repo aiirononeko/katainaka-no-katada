@@ -16,8 +16,11 @@ export const ContentCard = ({ content }: Props) => {
         <div className='h-[180px]'>
           <img
             src={content.eyecatch.url}
-            className='h-[180px]'
+            width='330'
+            height='180'
+            alt={`${content.title}のアイキャッチ`}
             loading='lazy'
+            className='h-[180px]'
           />
         </div>
         <div className='px-3 space-x-2'>
