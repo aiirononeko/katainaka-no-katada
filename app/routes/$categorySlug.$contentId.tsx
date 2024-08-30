@@ -33,15 +33,15 @@ export const loader = async ({
 export default function Content() {
   const { content } = useLoaderData<typeof loader>()
 
-  const createdAt = format({
-    date: content.createdAt,
+  const publishedAt = format({
+    date: content.publishedAt,
     format: 'YYYY/MM/DD',
     locale: 'ja',
     tz: 'Asia/Tokyo',
   })
 
-  const updatedAt = format({
-    date: content.createdAt,
+  const revisedAt = format({
+    date: content.revisedAt,
     format: 'YYYY/MM/DD',
     locale: 'ja',
     tz: 'Asia/Tokyo',
@@ -56,11 +56,11 @@ export default function Content() {
             {content.title}
           </h1>
           <div className='flex justify-center gap-3 text-muted-foreground text-sm'>
-            <div>{createdAt}に公開</div>
+            <div>{publishedAt}に公開</div>
             {content.updatedAt && (
               <div className='flex items-center gap-1'>
                 <RefreshCcw className='size-4' />
-                {updatedAt}
+                {revisedAt}
               </div>
             )}
           </div>

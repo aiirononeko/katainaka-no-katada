@@ -8,7 +8,7 @@ interface Props {
 
 export const ContentCard = ({ content }: Props) => {
   const createdAt = format({
-    date: content.createdAt,
+    date: content.publishedAt,
     format: 'YYYY/MM/DD',
     locale: 'ja',
     tz: 'Asia/Tokyo',
