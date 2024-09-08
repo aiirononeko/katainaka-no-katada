@@ -71,7 +71,6 @@ async function fetchUrlMetadata(url: string): Promise<UrlMetadata> {
 }
 
 function generatePreviewCardHtml(metadata: UrlMetadata, url: string): string {
-  console.log(metadata.description)
   return `
     <div class="relative border rounded overflow-hidden hover:shadow-md w-full grid grid-cols-3 mt-4 mb-6 h-28 items-center">
       <a href="${url}" class="absolute inset-0 w-full h-full z-10" target="_blank" rel="noopener noreferrer">
