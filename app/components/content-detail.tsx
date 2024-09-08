@@ -25,7 +25,7 @@ export const ContentDetail = ({ content, body }: Props) => {
   }, [])
 
   return (
-    <div className='container mx-auto grid grid-cols-4 gap-8 w-full relative'>
+    <div className='md:container px-4 mx-auto grid grid-cols-4 gap-8 w-full relative'>
       <div className='col-span-4 sm:border rounded py-2 sm:py-6 sm:px-10 md:py-10 lg:col-span-3'>
         <div className='space-x-2'>
           {content.tags.map((tag) => (

@@ -70,7 +70,7 @@ async function fetchUrlMetadata(url: string): Promise<UrlMetadata> {
   }
 }
 
-function generatePreviewCardHtml(metadata: UrlMetadata, url: string): string {
+function generatePreviewHtml(metadata: UrlMetadata, url: string): string {
   return `
     <div class="relative border rounded overflow-hidden hover:shadow-md w-full grid grid-cols-3 mt-4 mb-6 h-28 items-center">
       <a href="${url}" class="absolute inset-0 w-full h-full z-10" target="_blank" rel="noopener noreferrer">
@@ -87,7 +87,7 @@ function generatePreviewCardHtml(metadata: UrlMetadata, url: string): string {
   `
 }
 
-export const generateUrlPreviewCards = async (
+export const generateUrlPreview = async (
   content: string,
   metadataFetcher: (url: string) => Promise<UrlMetadata> = fetchUrlMetadata,
 ): Promise<string> => {
@@ -112,42 +112,9 @@ export const generateUrlPreviewCards = async (
       const result = results.find((r) => r[0] === fullMatch)
       if (result) {
         const [, , metadata] = result
-        return generatePreviewCardHtml(metadata, url)
+        return generatePreviewHtml(metadata, url)
       }
     }
     return fullMatch
   })
-}
-
-export const highlightCodeBlocks = async (
-  content: string,
-  highlighter: any,
-) => {
-  const codeBlockRegex =
-    /<pre><code class="language-(\w+)">([\s\S]*?)<\/code><\/pre>/g
-
-  return content.replace(codeBlockRegex, (_, lang, code) => {
-    const decodedCode = decodeHTMLEntities(code)
-    const highlightedCode = highlighter.codeToHtml(decodedCode.trim(), {
-      lang,
-      theme: 'solarized-dark',
-    })
-    return highlightedCode
-  })
-}
-
-const decodeHTMLEntities = (text: string): string => {
-  const entities: { [key: string]: string } = {
-    '&amp;': '&',
-    '&apos;': "'",
-    '&#x27;': "'",
-    '&#x2F;': '/',
-    '&#39;': "'",
-    '&#47;': '/',
-    '&lt;': '<',
-    '&gt;': '>',
-    '&nbsp;': ' ',
-    '&quot;': '"',
-  }
-  return text.replace(/&[^;]+;/g, (entity) => entities[entity] || entity)
 }

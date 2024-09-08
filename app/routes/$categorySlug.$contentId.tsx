@@ -6,7 +6,7 @@ import { createClient } from 'microcms-js-sdk'
 import { LoaderFunctionArgs } from 'react-router'
 import invariant from 'tiny-invariant'
 import { ContentDetail } from '~/components/content-detail'
-import { generateUrlPreviewCards } from '~/utils/html-parse.server'
+import { generateUrlPreview } from '~/utils/generate-url-preview.server'
 
 export const loader = async ({
   request,
@@ -28,7 +28,7 @@ export const loader = async ({
     contentId: params.contentId,
   })
 
-  const afterContent = await generateUrlPreviewCards(content.content)
+  const afterContent = await generateUrlPreview(content.content)
 
   return json({ content, body: afterContent, origin })
 }
