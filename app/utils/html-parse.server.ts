@@ -81,7 +81,9 @@ function generatePreviewCardHtml(metadata: UrlMetadata, url: string): string {
         <span class="font-bold text-lg mb-2 line-clamp-2">${metadata.title}</span>
         <span class="text-xs mb-2 line-clamp-2">${metadata.description}</span>
       </div>
-      ${metadata.image ? `<img src="${metadata.image}" alt="${metadata.title}" class="col-span-1" />` : ''}
+      <div className='max-h-32'>
+        ${metadata.image ? `<img src="${metadata.image}" alt="${metadata.title}" class="col-span-1" />` : ''}
+      </div>
     </div>
   `
 }
