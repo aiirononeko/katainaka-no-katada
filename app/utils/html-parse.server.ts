@@ -35,8 +35,10 @@ async function fetchUrlMetadata(url: string): Promise<UrlMetadata> {
 
 function generatePreviewCardHtml(metadata: UrlMetadata, url: string): string {
   return `
-    <a href="${url}"><span className='text-sm'>${url}</span></a>
-    <div class="border rounded overflow-hidden shadow-md w-full grid grid-cols-3 mb-6 h-32 items-center">
+    <div class="relative border rounded overflow-hidden hover:shadow-md w-full grid grid-cols-3 mt-4 mb-6 h-32 items-center">
+      <a href="${url}" class="absolute inset-0 w-full h-full z-10" target="_blank" rel="noopener noreferrer">
+        <span class="sr-only">Go to ${metadata.title}</span>
+      </a>
       <div class="px-4 col-span-2">
         <span class="font-bold text-lg mb-2 line-clamp-2">${metadata.title}</span>
         <span class="text-xs mb-2 line-clamp-2">${metadata.description}</span>
