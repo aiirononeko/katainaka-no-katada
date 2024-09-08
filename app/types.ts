@@ -34,3 +34,9 @@ interface Tag {
   revisedAt: string
   name: string
 }
+
+interface UrlMetadata {
+  title: string
+  description: string
+  image: string
+}

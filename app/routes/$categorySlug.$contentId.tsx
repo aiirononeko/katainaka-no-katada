@@ -3,9 +3,11 @@ import { MetaFunction, json } from '@remix-run/cloudflare'
 import { useLoaderData } from '@remix-run/react'
 import { RefreshCcw } from 'lucide-react'
 import { createClient } from 'microcms-js-sdk'
+import { after } from 'node_modules/cheerio/dist/esm/api/manipulation'
 import { LoaderFunctionArgs } from 'react-router'
 import invariant from 'tiny-invariant'
 import { ContentDetail } from '~/components/content-detail'
+import { generateUrlPreviewCards } from '~/utils/html-parse.server'
 
 export const loader = async ({
   request,
@@ -27,11 +29,13 @@ export const loader = async ({
     contentId: params.contentId,
   })
 
-  return json({ content, origin })
+  const afterContent = await generateUrlPreviewCards(content.content)
+
+  return json({ content, body: afterContent, origin })
 }
 
 export default function Content() {
-  const { content } = useLoaderData<typeof loader>()
+  const { content, body } = useLoaderData<typeof loader>()
 
   const publishedAt = format({
     date: content.publishedAt,
@@ -66,7 +70,7 @@ export default function Content() {
           </div>
         </div>
       </header>
-      <ContentDetail content={content} />
+      <ContentDetail content={content} body={body} />
     </article>
   )
 }

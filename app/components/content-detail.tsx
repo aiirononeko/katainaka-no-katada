@@ -13,9 +13,10 @@ import { Button } from './ui/button'
 
 interface Props {
   content: Blog
+  body: string
 }
 
-export const ContentDetail = ({ content }: Props) => {
+export const ContentDetail = ({ content, body }: Props) => {
   const [isSp, setIsSp] = useState(false)
 
   useEffect(() => {
@@ -35,7 +36,7 @@ export const ContentDetail = ({ content }: Props) => {
           ))}
         </div>
         <div id='article' className='article'>
-          {parse(content.content)}
+          {parse(body)}
         </div>
       </div>
       <div className='col-span-4 lg:hidden'>
