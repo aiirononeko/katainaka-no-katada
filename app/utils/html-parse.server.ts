@@ -2,29 +2,66 @@ import { load } from 'cheerio'
 
 async function fetchUrlMetadata(url: string): Promise<UrlMetadata> {
   try {
-    const response = await fetch(url)
+    const response = await fetch(url, {
+      headers: {
+        'User-Agent':
+          'Mozilla/5.0 (compatible; MetadataBot/1.0; +http://example.com/bot)',
+      },
+    })
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`)
     }
     const html = await response.text()
     const $ = load(html)
 
-    const title =
-      $('meta[property="og:title"]').attr('content') ||
-      $('meta[name="twitter:title"]').attr('content') ||
+    // Function to safely get content
+    const getContent = (selector: string) =>
+      $(selector).first().attr('content') || ''
+
+    let title =
+      getContent('meta[property="og:title"]') ||
+      getContent('meta[name="twitter:title"]') ||
       $('title').text() ||
       ''
 
-    const description =
-      $('meta[property="og:description"]').attr('content') ||
-      $('meta[name="twitter:description"]').attr('content') ||
-      $('meta[name="description"]').attr('content') ||
+    let description =
+      getContent('meta[property="og:description"]') ||
+      getContent('meta[name="twitter:description"]') ||
+      getContent('meta[name="description"]') ||
       ''
 
-    const image =
-      $('meta[property="og:image"]').attr('content') ||
-      $('meta[name="twitter:image"]').attr('content') ||
+    let image =
+      getContent('meta[property="og:image"]') ||
+      getContent('meta[name="twitter:image"]') ||
+      getContent('meta[name="twitter:image:src"]') ||
       ''
+
+    // X-specific handling
+    if (url.includes('x.com') || url.includes('twitter.com')) {
+      // Try to get X card data
+      const cardData = $('div[data-testid="card.wrapper"]')
+      if (cardData.length > 0) {
+        title =
+          title ||
+          cardData.find('span[data-testid="card.layoutLarge.title"]').text()
+        description =
+          description ||
+          cardData.find('span[data-testid="card.layoutLarge.detail"]').text()
+        if (!image) {
+          const imageElement = cardData.find(
+            'img[data-testid="card.layoutLarge.media"]',
+          )
+          image = imageElement.attr('src') || ''
+        }
+      }
+      // Fallback to tweet content if card data is not available
+      if (!title && !description) {
+        const tweetText = $('div[data-testid="tweetText"]').text()
+        title =
+          tweetText.substring(0, 60) + (tweetText.length > 60 ? '...' : '')
+        description = tweetText
+      }
+    }
 
     return { title, description, image }
   } catch (error) {
@@ -34,6 +71,7 @@ async function fetchUrlMetadata(url: string): Promise<UrlMetadata> {
 }
 
 function generatePreviewCardHtml(metadata: UrlMetadata, url: string): string {
+  console.log(metadata.description)
   return `
     <div class="relative border rounded overflow-hidden hover:shadow-md w-full grid grid-cols-3 mt-4 mb-6 h-32 items-center">
       <a href="${url}" class="absolute inset-0 w-full h-full z-10" target="_blank" rel="noopener noreferrer">
