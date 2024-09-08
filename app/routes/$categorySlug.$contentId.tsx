@@ -52,11 +52,11 @@ export default function Content() {
   })
 
   return (
-    <article className='mb-14'>
+    <article className='mb-14 max-w-[1120px] mx-auto'>
       <header className='py-8'>
         <div className='space-y-5 container mx-auto md:space-y-6'>
           <p className='text-center'>{content.category.name}</p>
-          <h1 className='text-center text-2xl font-bold leading-9 md:text-3xl'>
+          <h1 className='text-center text-2xl font-bold leading-10 md:text-3xl'>
             {content.title}
           </h1>
           <div className='flex justify-center gap-3 text-muted-foreground text-sm'>
