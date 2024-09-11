@@ -1,12 +1,25 @@
 import { format } from '@formkit/tempo'
-import { MetaFunction, json } from '@remix-run/cloudflare'
-import { useLoaderData } from '@remix-run/react'
+import { MetaFunction, defer } from '@remix-run/cloudflare'
+import { Await, useLoaderData } from '@remix-run/react'
 import { RefreshCcw } from 'lucide-react'
 import { createClient } from 'microcms-js-sdk'
+import { Suspense } from 'react'
 import { LoaderFunctionArgs } from 'react-router'
 import invariant from 'tiny-invariant'
 import { ContentDetail } from '~/components/content-detail'
 import { generateUrlPreview } from '~/utils/generate-url-preview.server'
+
+interface LoaderData {
+  id: string
+  categoryName: string
+  title: string
+  publishedAt: string
+  revisedAt: string
+  description: string
+  categorySlug: string
+  tags: Tag[]
+  content: Promise<string>
+}
 
 export const loader = async ({
   request,
@@ -23,28 +36,49 @@ export const loader = async ({
     apiKey: context.cloudflare.env.MICROCMS_API_KEY,
   })
 
-  const content = await client.get<Blog>({
+  const {
+    id,
+    title,
+    description,
+    publishedAt,
+    revisedAt,
+    category,
+    tags,
+    content,
+  } = await client.get<Blog>({
     endpoint: 'blogs',
     contentId: params.contentId,
   })
 
-  const afterContent = await generateUrlPreview(content.content)
+  const contentPromise = generateUrlPreview(content)
 
-  return json({ content, body: afterContent, origin })
+  return defer({
+    id,
+    categoryName: category.name,
+    title,
+    description,
+    publishedAt,
+    revisedAt,
+    categorySlug: category.slug,
+    tags,
+    content: contentPromise,
+    origin,
+  })
 }
 
 export default function Content() {
-  const { content, body } = useLoaderData<typeof loader>()
+  const { categoryName, title, publishedAt, revisedAt, tags, content } =
+    useLoaderData() as LoaderData
 
-  const publishedAt = format({
-    date: content.publishedAt,
+  const formattedPublishedAt = format({
+    date: publishedAt,
     format: 'YYYY/MM/DD',
     locale: 'ja',
     tz: 'Asia/Tokyo',
   })
 
-  const revisedAt = format({
-    date: content.revisedAt,
+  const formattedRevisedAt = format({
+    date: revisedAt,
     format: 'YYYY/MM/DD',
     locale: 'ja',
     tz: 'Asia/Tokyo',
@@ -54,53 +88,62 @@ export default function Content() {
     <article className='mb-14 max-w-[1120px] mx-auto'>
       <header className='py-8'>
         <div className='space-y-5 container mx-auto md:space-y-6'>
-          <p className='text-center'>{content.category.name}</p>
+          <p className='text-center'>{categoryName}</p>
           <h1 className='text-center text-2xl font-bold leading-10 md:text-3xl'>
-            {content.title}
+            {title}
           </h1>
           <div className='flex justify-center gap-3 text-muted-foreground text-sm'>
-            <div>{publishedAt}に公開</div>
-            {content.updatedAt && (
+            <div>{formattedPublishedAt}に公開</div>
+            {revisedAt && (
               <div className='flex items-center gap-1'>
                 <RefreshCcw className='size-4' />
-                {revisedAt}
+                {formattedRevisedAt}
               </div>
             )}
           </div>
         </div>
       </header>
-      <ContentDetail content={content} body={body} />
+      <Suspense fallback={<p>Loading URL preview...</p>}>
+        <Await
+          resolve={content}
+          errorElement={<p>Error loading URL preview.</p>}
+        >
+          {(resolvedContent) => (
+            <ContentDetail tags={tags} content={resolvedContent} />
+          )}
+        </Await>
+      </Suspense>
     </article>
   )
 }
 
 export const meta: MetaFunction<typeof loader> = ({ data }) => {
   if (!data) return []
-  const { content, origin } = data
+  const { id, title, description, categorySlug, origin } = data
 
   return [
     {
-      title: `${content.title} | キッサカタダ`,
+      title: `${title} | キッサカタダ`,
     },
     {
       name: 'description',
-      content: content.description,
+      content: description,
     },
     {
       property: 'og:url',
-      content: `https\://www.kissa-katada.com/${content.category.slug}/${content.id}`,
+      content: `https\://www.kissa-katada.com/${categorySlug}/${id}`,
     },
     {
       property: 'og:image',
-      content: `${origin}/resource/og?id=${content.id}`,
+      content: `${origin}/resource/og?id=${id}`,
     },
     {
       property: 'og:title',
-      content: content.title,
+      content: title,
     },
     {
       property: 'og:description',
-      content: content.description,
+      content: description,
     },
     {
       property: 'og:type',
@@ -112,7 +155,7 @@ export const meta: MetaFunction<typeof loader> = ({ data }) => {
     },
     {
       property: 'twitter:title',
-      content: content.title,
+      content: title,
     },
   ]
 }

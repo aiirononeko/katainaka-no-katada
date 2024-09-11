@@ -12,11 +12,11 @@ import { Toc } from './toc'
 import { Button } from './ui/button'
 
 interface Props {
-  content: Blog
-  body: string
+  tags: Tag[]
+  content: string
 }
 
-export const ContentDetail = ({ content, body }: Props) => {
+export const ContentDetail = ({ tags, content }: Props) => {
   const [isSp, setIsSp] = useState(false)
 
   useEffect(() => {
@@ -28,7 +28,7 @@ export const ContentDetail = ({ content, body }: Props) => {
     <div className='md:container px-4 mx-auto grid grid-cols-4 gap-8 w-full relative'>
       <div className='col-span-4 sm:border rounded py-2 sm:py-6 sm:px-10 md:py-10 lg:col-span-3'>
         <div className='space-x-2'>
-          {content.tags.map((tag) => (
+          {tags.map((tag) => (
             <Badge key={tag.id} variant='outline' className='h-8 space-x-1'>
               <span>#</span>
               <span>{tag.name}</span>
@@ -36,7 +36,7 @@ export const ContentDetail = ({ content, body }: Props) => {
           ))}
         </div>
         <div id='article' className='article'>
-          {parse(body)}
+          {parse(content)}
         </div>
       </div>
       <div className='col-span-4 lg:hidden'>
