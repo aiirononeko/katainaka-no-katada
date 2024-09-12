@@ -19,7 +19,7 @@ export const loader = async ({ params, context }: LoaderFunctionArgs) => {
   )
   const category = CATEGORIES[categoryIndex]
 
-  const { contents } = await client.getList<Blog>({
+  const blogs = await client.getList<Blog>({
     endpoint: 'blogs',
     queries: {
       orders: '-createdAt',
@@ -27,11 +27,12 @@ export const loader = async ({ params, context }: LoaderFunctionArgs) => {
     },
   })
 
-  return json({ contents, category })
+  return json({ blogs, category })
 }
 
 export default function Index() {
-  const { contents, category } = useLoaderData<typeof loader>()
+  const { blogs, category } = useLoaderData<typeof loader>()
+  const { contents } = blogs
 
   return (
     <div className='container mx-auto w-full max-w-[1120px] py-8 md:py-10'>

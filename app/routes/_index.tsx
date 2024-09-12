@@ -10,18 +10,18 @@ export const loader = async ({ context }: LoaderFunctionArgs) => {
     apiKey: context.cloudflare.env.MICROCMS_API_KEY,
   })
 
-  const response = await client.getList<Blog>({
+  const blogs = await client.getList<Blog>({
     endpoint: 'blogs',
     queries: {
       orders: '-createdAt',
     },
   })
-  return json({ response })
+  return json({ blogs })
 }
 
 export default function Index() {
-  const { response } = useLoaderData<typeof loader>()
-  const { contents } = response
+  const { blogs } = useLoaderData<typeof loader>()
+  const { contents } = blogs
 
   return (
     <div className='container mx-auto w-full max-w-[1120px] py-8 md:py-10'>

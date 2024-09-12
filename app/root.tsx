@@ -16,40 +16,6 @@ import { Header } from './components/header'
 import { Navbar } from './components/navbar'
 import './tailwind.css'
 
-export const links: LinksFunction = () => {
-  return [
-    {
-      rel: 'preconnect',
-      href: 'https://fonts.googleapis.com',
-    },
-    {
-      rel: 'preconnect',
-      href: 'https://fonts.gstatic.com',
-      crossOrigin: 'anonymous',
-    },
-    {
-      rel: 'preload',
-      as: 'style',
-      fetchpriority: 'high',
-      href: 'https://fonts.googleapis.com/css2?family=DotGothic16&display=swap',
-    },
-    {
-      rel: 'stylesheet',
-      href: 'https://fonts.googleapis.com/css2?family=DotGothic16&display=swap',
-    },
-    {
-      rel: 'preload',
-      as: 'style',
-      fetchpriority: 'high',
-      href: 'https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap',
-    },
-    {
-      rel: 'stylesheet',
-      href: 'https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap',
-    },
-  ]
-}
-
 export const loader = async ({ context }: LoaderFunctionArgs) => {
   return json({
     gaTrackingId:
@@ -114,4 +80,38 @@ export function Layout({ children }: { children: React.ReactNode }) {
 
 export default function App() {
   return <Outlet />
+}
+
+export const links: LinksFunction = () => {
+  return [
+    {
+      rel: 'preconnect',
+      href: 'https://fonts.googleapis.com',
+    },
+    {
+      rel: 'preconnect',
+      href: 'https://fonts.gstatic.com',
+      crossOrigin: 'anonymous',
+    },
+    {
+      rel: 'preload',
+      as: 'style',
+      fetchpriority: 'high',
+      href: 'https://fonts.googleapis.com/css2?family=DotGothic16&display=swap',
+    },
+    {
+      rel: 'stylesheet',
+      href: 'https://fonts.googleapis.com/css2?family=DotGothic16&display=swap',
+    },
+    {
+      rel: 'preload',
+      as: 'style',
+      fetchpriority: 'high',
+      href: 'https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap',
+    },
+    {
+      rel: 'stylesheet',
+      href: 'https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap',
+    },
+  ]
 }
