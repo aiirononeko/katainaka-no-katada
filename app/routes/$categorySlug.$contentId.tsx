@@ -103,7 +103,9 @@ export default function Content() {
           </div>
         </div>
       </header>
-      <Suspense fallback={<p>Loading URL preview...</p>}>
+      <Suspense
+        fallback={<p className='text-center'>Loading URL preview...</p>}
+      >
         <Await
           resolve={content}
           errorElement={<p>Error loading URL preview.</p>}
