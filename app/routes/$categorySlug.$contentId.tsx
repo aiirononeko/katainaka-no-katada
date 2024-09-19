@@ -1,5 +1,5 @@
 import { format } from '@formkit/tempo'
-import { MetaFunction, defer } from '@remix-run/cloudflare'
+import { MetaFunction, json } from '@remix-run/cloudflare'
 import { Await, useLoaderData } from '@remix-run/react'
 import { RefreshCcw } from 'lucide-react'
 import { createClient } from 'microcms-js-sdk'
@@ -9,17 +9,17 @@ import invariant from 'tiny-invariant'
 import { ContentDetail } from '~/components/content-detail'
 import { generateUrlPreview } from '~/utils/generate-url-preview.server'
 
-interface LoaderData {
-  id: string
-  categoryName: string
-  title: string
-  publishedAt: string
-  revisedAt: string
-  description: string
-  categorySlug: string
-  tags: Tag[]
-  content: Promise<string>
-}
+// interface LoaderData {
+//   id: string
+//   categoryName: string
+//   title: string
+//   publishedAt: string
+//   revisedAt: string
+//   description: string
+//   categorySlug: string
+//   tags: Tag[]
+//   content: Promise<string>
+// }
 
 export const loader = async ({
   request,
@@ -50,9 +50,7 @@ export const loader = async ({
     contentId: params.contentId,
   })
 
-  const contentPromise = generateUrlPreview(content)
-
-  return defer({
+  return json({
     id,
     categoryName: category.name,
     title,
@@ -61,14 +59,14 @@ export const loader = async ({
     revisedAt,
     categorySlug: category.slug,
     tags,
-    content: contentPromise,
+    content,
     origin,
   })
 }
 
 export default function Content() {
   const { categoryName, title, publishedAt, revisedAt, tags, content } =
-    useLoaderData() as LoaderData
+    useLoaderData<typeof loader>()
 
   const formattedPublishedAt = format({
     date: publishedAt,
@@ -103,18 +101,18 @@ export default function Content() {
           </div>
         </div>
       </header>
-      <Suspense
-        fallback={<p className='text-center'>Loading URL preview...</p>}
-      >
-        <Await
-          resolve={content}
-          errorElement={<p>Error loading URL preview.</p>}
-        >
-          {(resolvedContent) => (
-            <ContentDetail tags={tags} content={resolvedContent} />
-          )}
-        </Await>
-      </Suspense>
+      {/* <Suspense */}
+      {/*   fallback={<p className='text-center'>Loading URL preview...</p>} */}
+      {/* > */}
+      {/*   <Await */}
+      {/*     resolve={content} */}
+      {/*     errorElement={<p>Error loading URL preview.</p>} */}
+      {/*   > */}
+      {/* {(resolvedContent) => ( */}
+      <ContentDetail tags={tags} content={content} />
+      {/* )} */}
+      {/*   </Await> */}
+      {/* </Suspense> */}
     </article>
   )
 }
