@@ -66,7 +66,7 @@ export const clientLoader = async ({
   const { categoryName, title, publishedAt, revisedAt, tags, content } =
     await serverLoader<typeof loader>()
 
-  const parsedContent = parseContent(content)
+  const parsedContent = await parseContent(content)
 
   const formattedPublishedAt = format({
     date: publishedAt,

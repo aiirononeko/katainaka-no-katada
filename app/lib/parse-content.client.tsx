@@ -5,12 +5,17 @@ import parse, {
   HTMLReactParserOptions,
   domToReact,
 } from 'html-react-parser'
-import { children } from 'node_modules/cheerio/dist/esm/api/traversing'
 import { Suspense } from 'react'
+import { createHighlighter } from 'shiki'
 import { ErrorDisplay, LinkCard } from '~/components/link-card'
 import { Skeleton } from '~/components/ui/skeleton'
 
-export const parseContent = (content: string) => {
+export const parseContent = async (content: string) => {
+  const highlighter = await createHighlighter({
+    themes: ['solarized-dark'],
+    langs: ['javascript', 'shell'],
+  })
+
   const options: HTMLReactParserOptions = {
     replace: (domNode) => {
       if (domNode instanceof Element) {
@@ -20,6 +25,7 @@ export const parseContent = (content: string) => {
           const hasLink = children.some(
             (child) => child instanceof Element && child.name === 'a',
           )
+
           if (hasLink) {
             return (
               <>
@@ -94,6 +100,28 @@ export const parseContent = (content: string) => {
               loading='lazy'
             />
           )
+        }
+
+        // <pre>タグを処理
+        if (domNode.name === 'pre') {
+          const test = domNode.children[0] as Element
+          const hoge = test.children as Element[]
+          const code = domToReact(hoge, options) as string
+          const language =
+            domNode.attribs.class?.replace('language-', '') || 'javascript'
+          const highlightedCode = highlighter.codeToHtml(code, {
+            lang: language,
+            theme: 'solarized-dark',
+            transformers: [
+              {
+                pre(node) {
+                  this.addClassToHast(node, 'overflow-y-scroll text-sm p-4')
+                },
+              },
+            ],
+          })
+
+          return <div dangerouslySetInnerHTML={{ __html: highlightedCode }} />
         }
       }
     },
