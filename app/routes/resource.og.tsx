@@ -51,7 +51,8 @@ export const loader = async ({ request, context }: LoaderFunctionArgs) => {
         <div
           style={{
             width: OG_IMAGE_WIDTH,
-            padding: '80px',
+            padding: '60px',
+            marginBottom: '20px',
           }}
         >
           {content.title}
