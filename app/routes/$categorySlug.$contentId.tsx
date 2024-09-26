@@ -1,25 +1,32 @@
 import { format } from '@formkit/tempo'
 import { MetaFunction, json } from '@remix-run/cloudflare'
-import { Await, useLoaderData } from '@remix-run/react'
+import {
+  Await,
+  ClientLoaderFunctionArgs,
+  useLoaderData,
+} from '@remix-run/react'
+import parse, {
+  DOMNode,
+  Element,
+  HTMLReactParserOptions,
+  domToReact,
+} from 'html-react-parser'
 import { RefreshCcw } from 'lucide-react'
 import { createClient } from 'microcms-js-sdk'
-import { Suspense } from 'react'
+import { Suspense, useEffect, useState } from 'react'
 import { LoaderFunctionArgs } from 'react-router'
 import invariant from 'tiny-invariant'
-import { ContentDetail } from '~/components/content-detail'
-import { generateUrlPreview } from '~/utils/generate-url-preview.server'
-
-// interface LoaderData {
-//   id: string
-//   categoryName: string
-//   title: string
-//   publishedAt: string
-//   revisedAt: string
-//   description: string
-//   categorySlug: string
-//   tags: Tag[]
-//   content: Promise<string>
-// }
+import { Introduce } from '~/components/introduce'
+import { ErrorDisplay, LinkCard } from '~/components/link-card'
+import { Toc } from '~/components/toc'
+import { Badge } from '~/components/ui/badge'
+import { Button } from '~/components/ui/button'
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from '~/components/ui/popover'
+import { Skeleton } from '~/components/ui/skeleton'
 
 export const loader = async ({
   request,
@@ -64,9 +71,76 @@ export const loader = async ({
   })
 }
 
-export default function Content() {
+export const clientLoader = async ({
+  serverLoader,
+}: ClientLoaderFunctionArgs) => {
   const { categoryName, title, publishedAt, revisedAt, tags, content } =
-    useLoaderData<typeof loader>()
+    await serverLoader<typeof loader>()
+
+  const options: HTMLReactParserOptions = {
+    replace: (domNode) => {
+      if (domNode instanceof Element) {
+        // <p>タグを処理
+        if (domNode.name === 'p') {
+          const children = domNode.children
+          const hasLink = children.some(
+            (child) => child instanceof Element && child.name === 'a',
+          )
+          if (hasLink) {
+            return (
+              <>
+                {children.map((child, index) => {
+                  if (child instanceof Element && child.name === 'a') {
+                    const dataPromise = fetch(
+                      `http://localhost:5173/resource/link-card?url=${child.attribs.href}`,
+                    ).then((response) => {
+                      if (!response.ok) {
+                        throw new Error(
+                          `HTTP error! status: ${response.status}`,
+                        )
+                      }
+                      return response.json()
+                    })
+                    return (
+                      <Suspense
+                        key={index}
+                        fallback={
+                          <Skeleton className='w-full h-24 rounded my-4' />
+                        }
+                      >
+                        <Await
+                          resolve={dataPromise}
+                          errorElement={<ErrorDisplay />}
+                        >
+                          <LinkCard href={child.attribs.href} />
+                        </Await>
+                      </Suspense>
+                    )
+                  }
+                  return domToReact([child as DOMNode], options)
+                })}
+              </>
+            )
+          }
+        }
+        // <img>タグを処理
+        if (domNode.name === 'img') {
+          const { src, alt, ...props } = domNode.attribs
+          return (
+            <img
+              src={src}
+              alt={alt}
+              {...props}
+              className='max-w-full h-auto rounded-lg shadow-lg'
+              loading='lazy'
+            />
+          )
+        }
+      }
+    },
+  }
+
+  const parsedContent = parse(content, options)
 
   const formattedPublishedAt = format({
     date: publishedAt,
@@ -82,6 +156,34 @@ export default function Content() {
     tz: 'Asia/Tokyo',
   })
 
+  return {
+    categoryName,
+    title,
+    publishedAt: formattedPublishedAt,
+    revisedAt: formattedRevisedAt,
+    tags,
+    content: parsedContent,
+  }
+}
+
+clientLoader.hydrate = true
+
+export default function Content() {
+  const { categoryName, title, publishedAt, revisedAt, tags, content } =
+    useLoaderData<typeof clientLoader>()
+
+  const [isSp, setIsSp] = useState(false)
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsSp(window.innerWidth < 1024)
+    }
+    handleResize()
+    window.addEventListener('resize', handleResize)
+
+    return () => window.removeEventListener('resize', handleResize)
+  }, [])
+
   return (
     <article className='mb-14 max-w-[1120px] mx-auto'>
       <header className='py-8'>
@@ -91,28 +193,54 @@ export default function Content() {
             {title}
           </h1>
           <div className='flex justify-center gap-3 text-muted-foreground text-sm'>
-            <div>{formattedPublishedAt}に公開</div>
+            <div>{publishedAt}に公開</div>
             {revisedAt && (
               <div className='flex items-center gap-1'>
                 <RefreshCcw className='size-4' />
-                {formattedRevisedAt}
+                {revisedAt}
               </div>
             )}
           </div>
         </div>
       </header>
-      {/* <Suspense */}
-      {/*   fallback={<p className='text-center'>Loading URL preview...</p>} */}
-      {/* > */}
-      {/*   <Await */}
-      {/*     resolve={content} */}
-      {/*     errorElement={<p>Error loading URL preview.</p>} */}
-      {/*   > */}
-      {/* {(resolvedContent) => ( */}
-      <ContentDetail tags={tags} content={content} />
-      {/* )} */}
-      {/*   </Await> */}
-      {/* </Suspense> */}
+      <div className='md:container px-4 mx-auto grid grid-cols-4 gap-8 w-full relative'>
+        <div className='col-span-4 sm:border rounded py-2 sm:py-6 sm:px-10 md:py-10 lg:col-span-3'>
+          <div className='space-x-2'>
+            {tags.map((tag) => (
+              <Badge key={tag.id} variant='outline' className='h-8 space-x-1'>
+                <span>#</span>
+                <span>{tag.name}</span>
+              </Badge>
+            ))}
+          </div>
+          <div id='article' className='article'>
+            {content}
+          </div>
+        </div>
+        <div className='col-span-4 lg:hidden'>
+          <Introduce />
+        </div>
+        {isSp ? (
+          <Popover>
+            <PopoverTrigger asChild className='fixed bottom-6 right-6'>
+              <Button variant='outline' className='z-10'>
+                目次
+              </Button>
+            </PopoverTrigger>
+            <PopoverContent>
+              <Toc />
+            </PopoverContent>
+          </Popover>
+        ) : (
+          <div className='col-span-1 flex flex-col gap-8 relative'>
+            <Introduce />
+            <div className='border rounded p-5 space-y-4 sticky top-6'>
+              <p className='font-bold'>目次</p>
+              <Toc />
+            </div>
+          </div>
+        )}
+      </div>
     </article>
   )
 }
