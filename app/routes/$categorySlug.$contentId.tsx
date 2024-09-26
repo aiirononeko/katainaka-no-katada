@@ -1,23 +1,12 @@
 import { format } from '@formkit/tempo'
 import { MetaFunction, json } from '@remix-run/cloudflare'
-import {
-  Await,
-  ClientLoaderFunctionArgs,
-  useLoaderData,
-} from '@remix-run/react'
-import parse, {
-  DOMNode,
-  Element,
-  HTMLReactParserOptions,
-  domToReact,
-} from 'html-react-parser'
+import { ClientLoaderFunctionArgs, useLoaderData } from '@remix-run/react'
 import { RefreshCcw } from 'lucide-react'
 import { createClient } from 'microcms-js-sdk'
-import { Suspense, useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { LoaderFunctionArgs } from 'react-router'
 import invariant from 'tiny-invariant'
 import { Introduce } from '~/components/introduce'
-import { ErrorDisplay, LinkCard } from '~/components/link-card'
 import { Toc } from '~/components/toc'
 import { Badge } from '~/components/ui/badge'
 import { Button } from '~/components/ui/button'
@@ -26,7 +15,7 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from '~/components/ui/popover'
-import { Skeleton } from '~/components/ui/skeleton'
+import { parseContent } from '~/lib/parse-content.client'
 
 export const loader = async ({
   request,
@@ -77,70 +66,7 @@ export const clientLoader = async ({
   const { categoryName, title, publishedAt, revisedAt, tags, content } =
     await serverLoader<typeof loader>()
 
-  const options: HTMLReactParserOptions = {
-    replace: (domNode) => {
-      if (domNode instanceof Element) {
-        // <p>タグを処理
-        if (domNode.name === 'p') {
-          const children = domNode.children
-          const hasLink = children.some(
-            (child) => child instanceof Element && child.name === 'a',
-          )
-          if (hasLink) {
-            return (
-              <>
-                {children.map((child, index) => {
-                  if (child instanceof Element && child.name === 'a') {
-                    const dataPromise = fetch(
-                      `http://localhost:5173/resource/link-card?url=${child.attribs.href}`,
-                    ).then((response) => {
-                      if (!response.ok) {
-                        throw new Error(
-                          `HTTP error! status: ${response.status}`,
-                        )
-                      }
-                      return response.json()
-                    })
-                    return (
-                      <Suspense
-                        key={index}
-                        fallback={
-                          <Skeleton className='w-full h-24 rounded my-4' />
-                        }
-                      >
-                        <Await
-                          resolve={dataPromise}
-                          errorElement={<ErrorDisplay />}
-                        >
-                          <LinkCard href={child.attribs.href} />
-                        </Await>
-                      </Suspense>
-                    )
-                  }
-                  return domToReact([child as DOMNode], options)
-                })}
-              </>
-            )
-          }
-        }
-        // <img>タグを処理
-        if (domNode.name === 'img') {
-          const { src, alt, ...props } = domNode.attribs
-          return (
-            <img
-              src={src}
-              alt={alt}
-              {...props}
-              className='max-w-full h-auto rounded-lg shadow-lg'
-              loading='lazy'
-            />
-          )
-        }
-      }
-    },
-  }
-
-  const parsedContent = parse(content, options)
+  const parsedContent = parseContent(content)
 
   const formattedPublishedAt = format({
     date: publishedAt,
