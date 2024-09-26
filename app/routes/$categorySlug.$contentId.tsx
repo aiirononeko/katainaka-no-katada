@@ -6,8 +6,8 @@ import { createClient } from 'microcms-js-sdk'
 import { useEffect, useState } from 'react'
 import { LoaderFunctionArgs } from 'react-router'
 import invariant from 'tiny-invariant'
+import tocbot from 'tocbot'
 import { Introduce } from '~/components/introduce'
-import { Toc } from '~/components/toc'
 import { Badge } from '~/components/ui/badge'
 import { Button } from '~/components/ui/button'
 import {
@@ -66,7 +66,7 @@ export const clientLoader = async ({
   const { categoryName, title, publishedAt, revisedAt, tags, content } =
     await serverLoader<typeof loader>()
 
-  const parsedContent = await parseContent(content)
+  const parsedContent = await parseContent(content, origin)
 
   const formattedPublishedAt = format({
     date: publishedAt,
@@ -109,6 +109,18 @@ export default function Content() {
 
     return () => window.removeEventListener('resize', handleResize)
   }, [])
+
+  useEffect(() => {
+    tocbot.init({
+      tocSelector: '.toc',
+      contentSelector: '.article',
+      headingSelector: 'h1, h2, h3',
+      headingsOffset: 280,
+      scrollSmoothOffset: -280,
+    })
+
+    return () => tocbot.destroy()
+  }, [content])
 
   return (
     <article className='mb-14 max-w-[1120px] mx-auto'>
@@ -154,7 +166,7 @@ export default function Content() {
               </Button>
             </PopoverTrigger>
             <PopoverContent>
-              <Toc />
+              <nav className='toc' />
             </PopoverContent>
           </Popover>
         ) : (
@@ -162,7 +174,7 @@ export default function Content() {
             <Introduce />
             <div className='border rounded p-5 space-y-4 sticky top-6'>
               <p className='font-bold'>目次</p>
-              <Toc />
+              <nav className='toc' />
             </div>
           </div>
         )}

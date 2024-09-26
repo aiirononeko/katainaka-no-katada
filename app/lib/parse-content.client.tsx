@@ -10,7 +10,7 @@ import { createHighlighter } from 'shiki'
 import { ErrorDisplay, LinkCard } from '~/components/link-card'
 import { Skeleton } from '~/components/ui/skeleton'
 
-export const parseContent = async (content: string) => {
+export const parseContent = async (content: string, baseUrl: string) => {
   const highlighter = await createHighlighter({
     themes: ['solarized-dark'],
     langs: ['javascript', 'shell'],
@@ -32,7 +32,7 @@ export const parseContent = async (content: string) => {
                 {children.map((child, index) => {
                   if (child instanceof Element && child.name === 'a') {
                     const dataPromise = fetch(
-                      `https://www.kissa-katada.com/resource/link-card?url=${child.attribs.href}`,
+                      `${baseUrl}/resource/link-card?url=${child.attribs.href}`,
                     ).then((response) => {
                       if (!response.ok) {
                         throw new Error(
