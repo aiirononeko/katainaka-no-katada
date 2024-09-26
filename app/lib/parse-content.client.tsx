@@ -32,7 +32,7 @@ export const parseContent = async (content: string) => {
                 {children.map((child, index) => {
                   if (child instanceof Element && child.name === 'a') {
                     const dataPromise = fetch(
-                      `http://localhost:5173/resource/link-card?url=${child.attribs.href}`,
+                      `http://www.kissa-katada.com/resource/link-card?url=${child.attribs.href}`,
                     ).then((response) => {
                       if (!response.ok) {
                         throw new Error(
