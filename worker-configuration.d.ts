@@ -6,5 +6,4 @@ interface Env {
   MICROCMS_SERVICE_DOMAIN: string
   MICROCMS_API_KEY: string
   GA_TRACKING_ID: string
-  BUN_VERSION: string
 }
