@@ -3,6 +3,15 @@ import type { MetaFunction } from '@remix-run/cloudflare'
 import { useLoaderData } from '@remix-run/react'
 import { createClient } from 'microcms-js-sdk'
 import { ContentCard } from '~/components/content-card'
+import {
+  Pagination,
+  PaginationContent,
+  PaginationEllipsis,
+  PaginationItem,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious,
+} from '~/components/ui/pagination'
 
 export const loader = async ({ context }: LoaderFunctionArgs) => {
   const client = createClient({
@@ -16,6 +25,7 @@ export const loader = async ({ context }: LoaderFunctionArgs) => {
       orders: '-createdAt',
     },
   })
+
   return json({ blogs })
 }
 
@@ -46,6 +56,22 @@ export default function Index() {
           </p>
         </div>
       )}
+      <Pagination className='mt-10'>
+        <PaginationContent>
+          <PaginationItem>
+            <PaginationPrevious href='#' />
+          </PaginationItem>
+          <PaginationItem>
+            <PaginationLink href='#'>1</PaginationLink>
+          </PaginationItem>
+          <PaginationItem>
+            <PaginationEllipsis />
+          </PaginationItem>
+          <PaginationItem>
+            <PaginationNext href='#' />
+          </PaginationItem>
+        </PaginationContent>
+      </Pagination>
     </div>
   )
 }

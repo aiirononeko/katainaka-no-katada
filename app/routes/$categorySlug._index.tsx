@@ -5,6 +5,15 @@ import { createClient } from 'microcms-js-sdk'
 import invariant from 'tiny-invariant'
 import { CATEGORIES } from '~/categories'
 import { ContentCard } from '~/components/content-card'
+import {
+  Pagination,
+  PaginationContent,
+  PaginationEllipsis,
+  PaginationItem,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious,
+} from '~/components/ui/pagination'
 
 export const loader = async ({ params, context }: LoaderFunctionArgs) => {
   invariant(params.categorySlug, 'カテゴリが指定されていません')
@@ -55,6 +64,22 @@ export default function Index() {
           </p>
         </div>
       )}
+      <Pagination className='mt-10'>
+        <PaginationContent>
+          <PaginationItem>
+            <PaginationPrevious href='#' />
+          </PaginationItem>
+          <PaginationItem>
+            <PaginationLink href='#'>1</PaginationLink>
+          </PaginationItem>
+          <PaginationItem>
+            <PaginationEllipsis />
+          </PaginationItem>
+          <PaginationItem>
+            <PaginationNext href='#' />
+          </PaginationItem>
+        </PaginationContent>
+      </Pagination>
     </div>
   )
 }
